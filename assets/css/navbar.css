@@ -1,0 +1,93 @@
+/* navbar */
+.navbar {
+  background-color: var(--cor-branca);
+  padding-top: var(--espaco-3);
+  padding-bottom: var(--espaco-3);
+}
+
+/* logo */
+.navbar-brand img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+/* botão adicionar item */
+.link-botao {
+  background-color: var(--cor-principal-1);
+  color: var(--cor-branca);
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: 0.2s;
+}
+
+.link-botao:hover {
+  background-color: var(--cor-principal-hover);
+}
+
+/* botão de perfil */
+.perfil-btn {
+  background-color: var(--cor-principal-1);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.perfil-btn:hover,
+.perfil-btn:focus {
+  background-color: var(--cor-principal-hover);
+}
+
+.icon-perfil {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+/* remove seta bootstrap */
+.perfil-btn::after {
+  display: none !important;
+}
+
+
+/* hover e foco */
+.perfil-btn:hover,
+.perfil-btn:focus {
+  background-color: var(--cor-principal-hover);
+  outline: none;
+}
+
+/* mantém cor correta quando menu está aberto */
+.perfil-btn.show,
+.perfil-btn[aria-expanded="true"] {
+  background-color: var(--cor-principal-hover);
+}
+
+/* icone dentro do botão */
+.icon-perfil {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* garante visibilidade no estado ativo também */
+.perfil-btn.show .icon-perfil,
+.perfil-btn[aria-expanded="true"] .icon-perfil {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+/* dropdown menu */
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: var(--sombra-media);
+}

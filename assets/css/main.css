@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap');
+@import 'tokens.css';
+
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte-texto);
+  font-weight: 400;
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  line-height: 1.6;
+}
+
+/* links e botões */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* containers */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--espaco-4);
+}
+
+/* tipografia */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  /* semibold */
+  color: var(--cor-texto);
+  line-height: 1.2;
+}
+
+p,
+label,
+li {
+  font-family: var(--fonte-texto);
+  font-weight: 400;
+  color: var(--cor-texto);
+}
+
+/* espaçamentos padrão */
+.secao {
+  padding: var(--espaco-6) 0;
+}
+
+/* imagens */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* layout base */
+header,
+footer {
+  width: 100%;
+}
+
+footer {
+
+  /* height: 40px; */
+  background-color: var(--cor-principal-1);
+  color: var(--cor-branca);
+  text-align: center;
+  text-transform: uppercase;
+  padding: var(--espaco-3) 0;
+  font-size: 0.9rem;
+}
+
+/* utilitários */
+.texto-centralizado {
+  text-align: center;
+}
+
+.texto-laranja {
+  color: var(--cor-principal-1);
+}
+
+.bg-laranja {
+  background-color: var(--cor-principal-1);
+}
+
+.bg-branco {
+  background-color: var(--cor-branca);
+}
+
+.borda-suave {
+  border-radius: var(--borda-suave);
+}
+
+.sombra-suave {
+  box-shadow: var(--sombra-suave);
+}

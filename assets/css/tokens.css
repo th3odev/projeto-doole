@@ -1,0 +1,47 @@
+:root {
+  --largura-maxima: 1040px;
+  /* largura real de conteúdo */
+  --margem-lateral: 200px;
+  /* igual ao grid do figma */
+  --espacamento-secao: 60px;
+  /* espaçamento entre seções */
+  --gap-elementos: 32px;
+
+  /* cores principais */
+  --cor-principal-1: #ff550c;
+  --cor-principal-hover: #e14d0b;
+  --cor-texto: #141414;
+  --cor-fundo: #f1f2eb;
+  --cor-azul: #032b43;
+  --cor-verde: #51cb20;
+
+  /* tons neutros */
+  --cinza-100: #f8f8f8;
+  --cinza-200: #e6e6e6;
+  --cinza-300: #cccccc;
+  --cinza-400: #999999;
+  --cinza-500: #666666;
+  --cor-branca: #ffffff;
+
+  /* tipografia */
+  --fonte-titulo: 'Poppins', sans-serif;
+  --fonte-texto: 'Inter', sans-serif;
+
+  /* espaçamentos */
+  --espaco-1: 4px;
+  --espaco-2: 8px;
+  --espaco-3: 12px;
+  --espaco-4: 16px;
+  --espaco-5: 24px;
+  --espaco-6: 32px;
+  --espaco-7: 48px;
+
+  /* borda e sombra */
+  --borda-suave: 4px;
+  --borda-media: 8px;
+  --borda-grande: 16px;
+
+  --sombra-suave: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --sombra-media: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --sombra-grande: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
