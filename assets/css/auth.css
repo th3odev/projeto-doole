@@ -1,0 +1,91 @@
+/* estilo base da página de autenticação */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cor-fundo);
+}
+
+/* card principal */
+.auth-card {
+  background-color: var(--cor-branca);
+  border: 1px solid #d7d6d5;
+  border-radius: var(--borda-media);
+  box-shadow: var(--sombra-suave);
+  padding: 40px 48px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* logo */
+.auth-logo {
+  display: block;
+  /* garante que o margin auto funcione */
+  margin: 0 auto var(--espaco-4);
+  /* centraliza e adiciona espaçamento abaixo */
+  height: 42px;
+}
+
+@media (max-width: 480px) {
+  .auth-logo {
+    height: 32px;
+    margin-bottom: var(--espaco-3);
+  }
+}
+
+
+/* inputs do design system */
+.input-padrao {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--cinza-300);
+  border-radius: var(--borda-suave);
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-padrao:focus {
+  outline: none;
+  border-color: var(--cor-principal-1);
+  box-shadow: 0 0 0 2px rgba(255, 85, 12, 0.2);
+}
+
+/* labels e links */
+.label-input {
+  display: block;
+  font-family: var(--fonte-texto);
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--cor-texto);
+}
+
+.auth-card small {
+  display: block;
+  margin-top: 12px;
+  color: var(--cinza-500);
+}
+
+.auth-card small a {
+  color: var(--cor-principal-1);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.auth-card small a:hover {
+  text-decoration: underline;
+}
+
+/* responsivo */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 32px 24px;
+    margin: 0 16px;
+  }
+
+  .auth-logo {
+    height: 32px;
+  }
+}

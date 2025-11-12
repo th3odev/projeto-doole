@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap');
 @import 'tokens.css';
 
-/* reset */
+
 * {
   margin: 0;
   padding: 0;
@@ -20,7 +20,6 @@ body {
   line-height: 1.6;
 }
 
-/* links e botões */
 a {
   text-decoration: none;
   color: inherit;
@@ -32,7 +31,6 @@ button {
   background: none;
 }
 
-/* containers */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -40,7 +38,6 @@ button {
   padding: 0 var(--espaco-4);
 }
 
-/* tipografia */
 h1,
 h2,
 h3,
@@ -49,7 +46,6 @@ h5,
 h6 {
   font-family: var(--fonte-titulo);
   font-weight: 600;
-  /* semibold */
   color: var(--cor-texto);
   line-height: 1.2;
 }
@@ -62,19 +58,17 @@ li {
   color: var(--cor-texto);
 }
 
-/* espaçamentos padrão */
 .secao {
   padding: var(--espaco-6) 0;
 }
 
-/* imagens */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* layout base */
+
 header,
 footer {
   width: 100%;
@@ -82,7 +76,6 @@ footer {
 
 footer {
 
-  /* height: 40px; */
   background-color: var(--cor-principal-1);
   color: var(--cor-branca);
   text-align: center;
@@ -91,7 +84,6 @@ footer {
   font-size: 0.9rem;
 }
 
-/* utilitários */
 .texto-centralizado {
   text-align: center;
 }

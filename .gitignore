@@ -19,7 +19,8 @@ build/
 .env
 .env.local
 .env.*.local
-
+assets/js/env.js
+env.js
 # macOS
 .DS_Store
 .AppleDouble
