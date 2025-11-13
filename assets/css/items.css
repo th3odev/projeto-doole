@@ -1,0 +1,273 @@
+/* estilo padrao da pagina de items */
+
+.titulo-secao {
+  font-family: var(--fonte-titulo);
+  color: var(--cor-texto);
+}
+
+.texto-laranja {
+  color: var(--cor-principal-1);
+}
+
+.search-form {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 12px;
+  background-color: var(--cor-branca);
+  transition: all 0.2s ease;
+  width: 250px;
+}
+
+.search-form:focus-within {
+  border-color: var(--cor-principal-1);
+  box-shadow: 0 0 0 3px rgba(255, 85, 12, 0.2);
+}
+
+.search-form .icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+}
+
+.input-padrao {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+  font-size: 15px;
+  color: var(--cor-texto);
+}
+
+.filtro-select {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: var(--cor-branca);
+  color: var(--cor-texto);
+  font-size: 15px;
+  padding: 8px 10px;
+  min-width: 200px;
+}
+
+.filtro-select:focus {
+  border-color: var(--cor-principal-1);
+  box-shadow: 0 0 0 2px rgba(255, 85, 12, 0.2);
+}
+
+.card-item {
+  background-color: var(--cor-branca);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+}
+
+.card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-item .conteudo {
+  padding: 1rem;
+}
+
+.card-item .titulo-card {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+  margin-bottom: 6px;
+}
+
+.card-item .descricao-card {
+  color: #6c6c6c;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  min-height: 40px;
+  margin-bottom: 10px;
+}
+
+.card-item .preco-card {
+  color: var(--cor-principal-1);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* tags/badges */
+.badge-venda {
+  background-color: var(--cor-principal-1);
+  color: var(--cor-branca);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.badge-doacao {
+  background-color: var(--cor-azul);
+  color: var(--cor-branca);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+/* localizacao  */
+.card-item .localizacao {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6c6c6c;
+  font-size: 0.85rem;
+}
+
+.card-item .localizacao img {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+/* skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.footer-laranja {
+  background-color: var(--cor-principal-1);
+  color: white;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* responsivo geral */
+
+@media (max-width: 992px) {
+  main.container {
+    padding: 1rem;
+  }
+
+  .titulo-secao {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .filtros {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .filtro-select {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .search-form {
+    width: 100%;
+  }
+
+  .input-padrao {
+    font-size: 0.95rem;
+  }
+}
+
+/* cards */
+@media (max-width: 768px) {
+  .card-item {
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .card-item img {
+    height: 180px;
+  }
+
+  .card-item .titulo-card {
+    font-size: 1rem;
+  }
+
+  .card-item .descricao-card {
+    font-size: 0.85rem;
+  }
+
+  .card-item .preco-card {
+    font-size: 0.9rem;
+  }
+
+  .card-item .localizacao span {
+    font-size: 0.8rem;
+  }
+
+  .badge-venda,
+  .badge-doacao {
+    font-size: 0.7rem;
+    padding: 3px 7px;
+  }
+}
+
+/* mobile muito pequeno */
+@media (max-width: 480px) {
+  .titulo-secao {
+    font-size: 1.4rem;
+  }
+
+  .search-form {
+    flex-direction: row;
+    padding: 6px 10px;
+  }
+
+  .search-form .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .card-item img {
+    height: 160px;
+  }
+
+  .card-item .conteudo {
+    padding: 0.8rem;
+  }
+
+  .card-item .titulo-card {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-laranja {
+    font-size: 0.75rem;
+  }
+
+  main.container {
+    padding-bottom: 3rem;
+  }
+}

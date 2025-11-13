@@ -1,4 +1,4 @@
-/* estilo base da página de autenticação */
+/* estilo base da página de login e registro */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -22,9 +22,7 @@
 /* logo */
 .auth-logo {
   display: block;
-  /* garante que o margin auto funcione */
   margin: 0 auto var(--espaco-4);
-  /* centraliza e adiciona espaçamento abaixo */
   height: 42px;
 }
 
