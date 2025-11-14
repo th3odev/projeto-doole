@@ -1,14 +1,25 @@
-document.addEventListener("DOMContentLoaded", async () => {
+import { getCurrentUser, signOutUser } from "../core/auth.js";
+
+export const renderNavbar = async () => {
   const navbarContainer = document.getElementById("navbar");
   if (!navbarContainer) return;
 
   try {
-    // Verifica sessão atual do usuário
-    const { data, error } = await supabase.auth.getSession();
-    const session = data?.session;
+    const user = await getCurrentUser();
 
-    // Navbar deslogado - COM NOVAS CLASSES
-    const navbarDeslogado = `
+    const navbarHTML = user ? renderLoggedInNavbar() : renderLoggedOutNavbar();
+    navbarContainer.innerHTML = navbarHTML;
+
+    if (user) {
+      setupLogout();
+    }
+  } catch (error) {
+    console.error("Erro ao renderizar navbar:", error);
+    navbarContainer.innerHTML = renderLoggedOutNavbar();
+  }
+};
+
+const renderLoggedOutNavbar = () => `
   <nav class="navbar">
     <div class="navbar__container">
       <a href="../index.html" class="navbar__brand">
@@ -19,8 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   </nav>
 `;
 
-    // Navbar logado - COM NOVAS CLASSES
-    const navbarLogado = `
+const renderLoggedInNavbar = () => `
   <nav class="navbar">
     <div class="navbar__container">
       <a href="../index.html" class="navbar__brand">
@@ -45,20 +55,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   </nav>
 `;
 
-    // Renderiza navbar conforme o estado do login
-    navbarContainer.innerHTML = session ? navbarLogado : navbarDeslogado;
-
-    // Logout (se logado)
-    if (session) {
-      const logoutBtn = document.getElementById("logout-btn");
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", async () => {
-          await supabase.auth.signOut();
-          window.location.href = "../pages/auth.html";
-        });
-      }
-    }
-  } catch (err) {
-    console.error("Erro ao carregar navbar:", err.message);
+const setupLogout = () => {
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await signOutUser();
+    });
   }
-});
+};

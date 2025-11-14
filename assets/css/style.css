@@ -1,29 +1,29 @@
-/* 1 — fontes */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap');
+/* assets/css/style.css - NOVO ENTRY POINT ORGANIZADO */
 
-/* 2 — tokens / variáveis */
-@import 'tokens.css';
+/* 1. BASE LAYER */
+@import url('base/reset.css');
+@import url('base/typography.css');
+@import url('base/variables.css');
 
-/* 3 — resets e base global */
-@import 'main.css';
+/* 2. COMPONENTS LAYER */
+@import url('components/buttons.css');
+@import url('components/forms.css');
+@import url('components/cards.css');
+@import url('components/badges.css');
+@import url('components/upload.css');
 
-/* 4 — design system base (cores, espaçamentos, tipografia, inputs, botões etc.) */
-@import 'design-system.css';
+/* 3. LAYOUT LAYER */
+@import url('layout/grid.css');
+@import url('layout/navbar.css');
+@import url('layout/sections.css');
 
-/* 5 — componentes globais (cards, botões, inputs etc.) */
-@import 'components.css';
+/* 4. PAGES LAYER */
+@import url('pages/home.css');
+@import url('pages/auth.css');
+@import url('pages/items.css');
+@import url('pages/item-detail.css');
+@import url('pages/new-item.css');
+@import url('pages/profile.css');
 
-/* 6 — utilidades (margin helpers etc.) */
-@import 'utilities.css';
-
-/* 7 — layout fixo / navbar */
-@import 'navbar.css';
-
-/* 8 — páginas individuais (SEMPRE DEPOIS DE TUDO)
-   cada página sobrescreve somente o que precisa
-*/
-@import 'home.css';
-@import 'auth.css';
-@import 'item.css';
-@import 'items.css';
-@import 'new-item.css';
+/* 5. UTILITIES LAYER */
+@import url('utilities/utilities.css');

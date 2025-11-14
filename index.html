@@ -16,62 +16,70 @@
   <header id="navbar"></header>
   <main>
     <section class="hero">
-      <div class="container d-flex align-items-center justify-content-between">
-        <div class="hero-text">
-          <h1>Venda, Doe ou Descarte de Forma <span class="texto-destaque">Sustentável.</span></h1>
-          <p>
+      <div class="hero__container">
+        <div class="hero__text">
+          <h1 class="hero__title">Venda, Doe ou Descarte de Forma <span class="hero__title--highlight">Sustentável.</span></h1>
+          <p class="hero__description">
             Plataforma que conecta pessoas que querem vender, doar ou descartar itens com quem deseja comprá-los e reutilizá-los.
             O que sobra pra uns pode valer muito pra outros, cada item ganha uma nova história e você, um novo espaço ou uma grana a mais no bolso.
           </p>
-          <a href="pages/items.html" class="link-botao">Ver Itens</a>
+          <div class="hero__actions">
+            <a href="pages/items.html" class="btn btn--primary">Ver Itens</a>
+          </div>
         </div>
-        <div class="hero-img">
+        <div class="hero__image">
           <img src="assets/img/hero-img.jpg" alt="Pessoa usando notebook">
         </div>
       </div>
     </section>
-    <section class="como-funciona">
-      <div class="container text-center">
-        <h2>Como funciona</h2>
-        <div class="itens">
-          <div class="item-funciona">
-            <img src="assets/img/icons/box.svg" alt="Cadastro">
-            <h5>Cadastre seus itens</h5>
-            <p>Adicione fotos, descrição e categoria dos produtos que quer doar, vender ou descartar.</p>
+
+    <section class="how-it-works">
+      <div class="how-it-works__container">
+        <h2 class="how-it-works__title">Como funciona</h2>
+        <div class="how-it-works__grid">
+          <div class="how-it-works__item">
+            <img src="assets/img/icons/box.svg" alt="Cadastro" class="how-it-works__icon">
+            <h5 class="how-it-works__item-title">Cadastre seus itens</h5>
+            <p class="how-it-works__item-description">Adicione fotos, descrição e categoria dos produtos que quer doar, vender ou descartar.</p>
           </div>
-          <div class="item-funciona">
-            <img src="assets/img/icons/conecte-se.svg" alt="Conecte-se">
-            <h5>Conecte-se</h5>
-            <p>Receba ofertas de interessados e negocie valores, prazos e condições de retirada.</p>
+          <div class="how-it-works__item">
+            <img src="assets/img/icons/conecte-se.svg" alt="Conecte-se" class="how-it-works__icon">
+            <h5 class="how-it-works__item-title">Conecte-se</h5>
+            <p class="how-it-works__item-description">Receba ofertas de interessados e negocie valores, prazos e condições de retirada.</p>
           </div>
-          <div class="item-funciona">
-            <img src="assets/img/icons/impacto-positivo.svg" alt="Impacto positivo">
-            <h5>Impacto positivo</h5>
-            <p>Contribua para a economia circular e reduza o desperdício dando nova vida aos objetos.</p>
+          <div class="how-it-works__item">
+            <img src="assets/img/icons/impacto-positivo.svg" alt="Impacto positivo" class="how-it-works__icon">
+            <h5 class="how-it-works__item-title">Impacto positivo</h5>
+            <p class="how-it-works__item-description">Contribua para a economia circular e reduza o desperdício dando nova vida aos objetos.</p>
           </div>
         </div>
       </div>
     </section>
-    <section class="cta-final">
-      <div class="container d-flex align-items-center justify-content-between">
-        <div class="cta-img">
+
+    <section class="cta">
+      <div class="cta__container">
+        <div class="cta__image">
           <img src="assets/img/cta-img.png" alt="Ilustração de entrega">
         </div>
-        <div class="cta-text">
-          <h2>Pronto para começar?</h2>
-          <p>Transforme seus itens parados em dinheiro agora mesmo! Cadastre no Doole, receba lances e faça a roda girar dando um novo destino ao que você não usa mais!</p>
-          <a href="pages/new-item.html" class="link-botao">Vender Agora</a>
+        <div class="cta__content">
+          <h2 class="cta__title">Pronto para começar?</h2>
+          <p class="cta__description">Transforme seus itens parados em dinheiro agora mesmo! Cadastre no Doole, receba lances e faça a roda girar dando um novo destino ao que você não usa mais!</p>
+          <a href="pages/new-item.html" class="btn cta__button">Vender Agora</a>
         </div>
       </div>
     </section>
   </main>
-  <footer class="text-center py-3 bg-laranja text-white">
+
+  <footer class="bg-primary text-center py-3 text-white">
     <small>© Doole · Alguns Direitos Reservados.</small>
   </footer>
+
+  <!-- SCRIPTS CORRETOS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="assets/js/supabaseClient.js"></script>
-  <script src="assets/js/main.js"></script>
+
+  <script src="assets/js/core/supabaseClient.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 
 </html>

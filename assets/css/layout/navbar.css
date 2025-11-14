@@ -1,0 +1,23 @@
+/* ===== NAVBAR COM 1440px APENAS ===== */
+.navbar {
+  background: var(--cor-branca);
+  padding: var(--espaco-3) 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--sombra-suave);
+}
+
+.navbar__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--espaco-4);
+  width: 100%;
+}
+
+.navbar__logo {
+  height: 40px;
+}

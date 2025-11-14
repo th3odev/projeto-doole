@@ -1,0 +1,14 @@
+assets/js/components/cards.js
+assets/js/components/navbar.js
+assets/js/components/upload.js
+assets/js/core/auth.js
+assets/js/core/supabaseClient.js
+assets/js/core/utils.js
+assets/js/main.js
+assets/js/pages/auth.js
+assets/js/pages/home.js
+assets/js/pages/item-detail.js
+assets/js/pages/items.js
+assets/js/pages/new-item.js
+assets/js/pages/offers.js
+assets/js/pages/profile.js

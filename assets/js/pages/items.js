@@ -1,6 +1,4 @@
-// itens listagem - mantém lógica original com melhorias (ordenar, filtros, truncamento)
-// comentários simples, lowercase
-
+// items.js - ATUALIZADO com novas classes CSS BEM
 document.addEventListener("DOMContentLoaded", async () => {
   const itemsContainer = document.getElementById("itemsContainer");
   const searchInput = document.getElementById("searchInput");
@@ -38,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cidades = [
       ...new Set((allItems || []).map((i) => i.localizacao).filter(Boolean)),
     ];
-    filterCidade.innerHTML = `<option value="">Filtrar cidades</option>`;
+    filterCidade.innerHTML = `<option value="">Todas as cidades</option>`;
     cidades.forEach((c) => {
       const opt = document.createElement("option");
       opt.value = c;
@@ -49,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     aplicarFiltros();
   }
 
-  // renderizar cards
+  // renderizar cards COM NOVAS CLASSES BEM
   function renderizarItens(items) {
     itemsContainer.innerHTML = "";
 
@@ -68,34 +66,37 @@ document.addEventListener("DOMContentLoaded", async () => {
         (item.imagens && item.imagens[0]) || "../assets/img/placeholder.png";
       const badge =
         item.tipo === "doacao"
-          ? `<span class="badge-doacao">Doação</span>`
-          : `<span class="badge-venda">Venda</span>`;
+          ? `<span class="badge badge--donation">Doação</span>`
+          : `<span class="badge badge--sale">Venda</span>`;
       const preco =
         item.tipo === "doacao"
           ? "Grátis"
           : priceFmt.format(Number(item.preco || 0));
 
+      // CARD COM NOVAS CLASSES BEM
       const card = document.createElement("article");
-      card.className = "card-item";
+      card.className = "card card--item";
       card.innerHTML = `
         <img src="${escapeHtmlAttr(imagem)}" alt="${escapeHtmlAttr(
         item.titulo || "item"
-      )}" />
+      )}" class="card--item__image" />
 
-        <div class="conteudo">
-          <div class="d-flex justify-content-between align-items-start w-100">
-            <h3 class="titulo-card">${escapeHtml(item.titulo || "")}</h3>
+        <div class="card--item__content">
+          <div class="card--item__header">
+            <h3 class="card--item__title">${escapeHtml(item.titulo || "")}</h3>
             ${badge}
           </div>
 
-          <p class="descricao-card">${escapeHtml(item.descricao || "")}</p>
+          <p class="card--item__description">${escapeHtml(
+            item.descricao || ""
+          )}</p>
 
-          <div class="rodape mt-2 w-100">
-            <div class="localizacao">
-              <img src="../assets/img/icons/localizacao.svg" alt="" aria-hidden="true" />
+          <div class="card--item__footer">
+            <div class="card--item__location">
+              <img src="../assets/img/icons/localizacao.svg" alt="" aria-hidden="true" class="card--item__location-icon" />
               <span>${escapeHtml(item.localizacao || "")}</span>
             </div>
-            <span class="preco-card">${preco}</span>
+            <span class="card--item__price">${preco}</span>
           </div>
         </div>
       `;
@@ -158,16 +159,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderizarItens(items);
   }
 
-  // skeleton simples
+  // skeleton COM NOVAS CLASSES
   function showSkeleton(count) {
     itemsContainer.innerHTML = "";
     for (let i = 0; i < count; i++) {
       const col = document.createElement("div");
       col.className = "col-auto";
       col.innerHTML = `
-        <div class="card-item" aria-hidden="true">
+        <div class="card card--item" aria-hidden="true">
           <div class="skeleton" style="height:200px;"></div>
-          <div class="p-3">
+          <div class="card--item__content">
             <div class="skeleton mb-2" style="width:60%; height:16px;"></div>
             <div class="skeleton mb-2" style="width:90%; height:12px;"></div>
             <div class="skeleton" style="width:40%; height:14px;"></div>

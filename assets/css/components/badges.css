@@ -1,0 +1,19 @@
+/* ===== BADGES BASE ===== */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cor-branca);
+}
+
+.badge--donation {
+  background-color: var(--cor-azul);
+}
+
+.badge--sale {
+  background-color: var(--cor-principal-1);
+}

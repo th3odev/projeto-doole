@@ -1,0 +1,88 @@
+/* ===== FORM GROUPS ===== */
+.form__group {
+  margin-bottom: var(--espaco-4);
+}
+
+.form__label {
+  display: block;
+  font-family: var(--fonte-texto);
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--cor-texto);
+}
+
+/* ===== INPUTS ===== */
+.form__input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--cinza-300);
+  border-radius: 4px;
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: var(--cor-branca);
+  color: var(--cor-texto);
+}
+
+.form__input:focus {
+  outline: none;
+  border-color: var(--cor-principal-1);
+  box-shadow: 0 0 0 2px rgba(255, 85, 12, 0.2);
+}
+
+.form__input--search {
+  border: none;
+  background: transparent;
+  padding: 6px 0;
+}
+
+/* ===== STATES ===== */
+.form__input--error {
+  border-color: #e63946;
+}
+
+.form__input--error:focus {
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+}
+
+.form__input--success {
+  border-color: var(--cor-verde);
+}
+
+.form__input--success:focus {
+  box-shadow: 0 0 0 2px rgba(81, 203, 32, 0.2);
+}
+
+/* ===== MENSAGENS ===== */
+.form__message {
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.form__message--error {
+  color: #e63946;
+}
+
+/* ===== SEARCH FORM ===== */
+.search-form {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 12px;
+  background-color: var(--cor-branca);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-form:focus-within {
+  border-color: var(--cor-principal-1);
+  box-shadow: 0 0 0 3px rgba(255, 85, 12, 0.12);
+}
+
+.search-form__icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+}

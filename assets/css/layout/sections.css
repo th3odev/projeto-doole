@@ -1,0 +1,47 @@
+/* ===== SECTIONS PADRÃO ===== */
+.section {
+  padding: var(--espacamento-secao) var(--margem-lateral);
+}
+
+.section--hero {
+  background-color: var(--cor-fundo);
+  border-bottom: 1px solid var(--cinza-300);
+}
+
+.section--white {
+  background-color: var(--cor-branca);
+}
+
+.section--dark {
+  background-color: var(--cor-texto);
+  color: var(--cor-branca);
+}
+
+.section__container {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: var(--espacamento-secao);
+}
+
+/* FOOTER - COR LARANJA */
+footer.bg-primary {
+  background-color: var(--cor-principal-1) !important;
+  color: var(--cor-branca);
+}
+
+/* Se tiver classe específica */
+.footer {
+  background-color: var(--cor-principal-1);
+  color: var(--cor-branca);
+  text-align: center;
+  padding: var(--espaco-4) 0;
+}
+
+/* Remover cor azul se estiver sendo aplicada */
+.bg-primary {
+  background-color: var(--cor-principal-1) !important;
+}

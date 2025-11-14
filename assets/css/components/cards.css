@@ -1,0 +1,139 @@
+/* ===== CARD BASE ===== */
+.card {
+  background-color: var(--cor-branca);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  transition: all 0.2s ease;
+}
+
+.card--hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-media);
+}
+
+/* ===== CARD DE ITEM ===== */
+.card--item {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 280px;
+}
+
+.card--item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card--item__image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card--item__content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.card--item__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+
+  /* Text truncation - compatível com todos os browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* Standard property for future compatibility */
+  line-clamp: 1;
+}
+
+.card--item__description {
+  color: #6c6c6c;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0;
+
+  /* Text truncation - compatível com todos os browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* Standard property for future compatibility */
+  line-clamp: 2;
+}
+
+.card--item__footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card--item__location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6c6c6c;
+  font-size: 0.85rem;
+}
+
+.card--item__location-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+.card--item__price {
+  color: var(--cor-principal-1);
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* ===== CARD RELACIONADO ===== */
+.card--related {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.card--related:hover {
+  transform: translateY(-4px);
+}
+
+.card--related__image {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 480px) {
+  .card--item__image {
+    height: 180px;
+  }
+
+  .card--item__content {
+    padding: 0.8rem;
+  }
+
+  .card--item__title {
+    font-size: 1rem;
+  }
+}

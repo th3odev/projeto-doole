@@ -1,0 +1,43 @@
+/* ===== GRID SYSTEM ===== */
+.grid {
+  display: grid;
+  gap: var(--gap-elementos);
+}
+
+.grid--2cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4cols {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid--auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 1200px) {
+  .grid--4cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .grid--4cols,
+  .grid--3cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid--4cols,
+  .grid--3cols,
+  .grid--2cols {
+    grid-template-columns: 1fr;
+  }
+}
