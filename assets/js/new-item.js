@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const previewContainer = document.getElementById("preview-container");
 
   // =============================
-  // 1️⃣ Verifica se usuário está logado
+  // 1️⃣ Verifica login
   // =============================
   const { data: session } = await supabase.auth.getSession();
   if (!session.session) {
@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error("Erro ao carregar categorias:", error.message);
       return;
     }
+
     data.forEach((cat) => {
       const option = document.createElement("option");
       option.value = cat.id;
@@ -36,29 +37,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   carregarCategorias();
 
   // =============================
-  // 3️⃣ Preview das imagens
+  // 3️⃣ Preview imagens
   // =============================
   fileInput.addEventListener("change", () => {
     previewContainer.innerHTML = "";
     const files = fileInput.files;
+
     for (const file of files) {
       const reader = new FileReader();
+
       reader.onload = (e) => {
         const img = document.createElement("img");
         img.src = e.target.result;
-        img.classList.add("preview-img");
         img.style.width = "90px";
         img.style.height = "90px";
         img.style.objectFit = "cover";
         img.style.borderRadius = "8px";
+        img.style.border = "1px solid #ddd";
         previewContainer.appendChild(img);
       };
+
       reader.readAsDataURL(file);
     }
   });
 
   // =============================
-  // 4️⃣ Drag and Drop (UX)
+  // 4️⃣ Drag & Drop
   // =============================
   uploadLabel.addEventListener("dragover", (e) => {
     e.preventDefault();
@@ -72,13 +76,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   uploadLabel.addEventListener("drop", (e) => {
     e.preventDefault();
     uploadLabel.style.borderColor = "#d9d9d9";
+
     const files = e.dataTransfer.files;
     fileInput.files = files;
+
     fileInput.dispatchEvent(new Event("change"));
   });
 
   // =============================
-  // 5️⃣ Atualiza campo de preço conforme o tipo
+  // 5️⃣ Atualiza campo de preço
   // =============================
   function atualizarCampoValor() {
     if (tipoSelect.value === "doacao") {
@@ -89,14 +95,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       precoInput.value = "R$ 0,00";
     }
   }
+
   tipoSelect.addEventListener("change", atualizarCampoValor);
-  atualizarCampoValor();
+  atualizarCampoValor(); // <<< ESSA LINHA FAZ O QUE VOCÊ PEDIU!
 
   // =============================
-  // 6️⃣ Formata valor em R$ (pt-BR)
+  // 6️⃣ Formatar valor (pt-BR)
   // =============================
   precoInput.addEventListener("input", (e) => {
     let value = e.target.value.replace(/\D/g, "");
+
     if (value) {
       value = (parseInt(value) / 100).toFixed(2);
       e.target.value = `R$ ${value
@@ -108,35 +116,41 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // =============================
-  // 7️⃣ Submete formulário (CREATE)
+  // 7️⃣ Submissão
   // =============================
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const titulo = document.getElementById("titulo").value.trim();
     const descricao = document.getElementById("descricao").value.trim();
+
     const tipo = tipoSelect.value;
+
     const precoRaw = precoInput.value.replace(/[^\d,]/g, "").replace(",", ".");
     const preco = tipo === "doacao" ? 0 : parseFloat(precoRaw) || 0;
+
     const categoria_id = parseInt(categoriaSelect.value);
-    const localizacao = document.getElementById("localizacao").value.trim();
+
+    const cidade = document.getElementById("cidade").value.trim();
+    const uf = document.getElementById("uf").value.trim();
+
     const imagens = fileInput.files;
 
-    // Validar campos obrigatórios
-    if (!titulo || !descricao || !categoria_id || !localizacao) {
+    if (!titulo || !descricao || !categoria_id || !cidade) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
 
     const { data: userData } = await supabase.auth.getUser();
     const user = userData?.user;
+
     if (!user) {
       alert("Você precisa estar logado para adicionar um item!");
       return;
     }
 
     // =============================
-    // Upload de imagens para o Storage
+    // Upload Storage
     // =============================
     let imagensUrls = [];
 
@@ -145,11 +159,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       const filePath = `${user.id}/${Date.now()}_${file.name}`;
 
       const { error: uploadError } = await supabase.storage
-        .from("public-images") // ✅ bucket correto
+        .from("public-images")
         .upload(filePath, file);
 
       if (uploadError) {
-        console.error("Erro ao enviar imagem:", uploadError.message);
+        console.error(uploadError.message);
         alert("Erro ao enviar imagem!");
         return;
       }
@@ -162,7 +176,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // =============================
-    // Inserir item no banco
+    // Inserir item
     // =============================
     const { error: insertError } = await supabase.from("items").insert([
       {
@@ -173,16 +187,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         categoria_id,
         usuario_id: user.id,
         imagens: imagensUrls,
-        localizacao,
+
+        // armazenamos junto mas separado internamente
+        localizacao: `${cidade} - ${uf}`,
+        cidade,
+        uf,
       },
     ]);
 
     if (insertError) {
-      console.error("Erro ao adicionar item:", insertError.message);
       alert("Erro ao adicionar item!");
-    } else {
-      alert("✅ Item adicionado com sucesso!");
-      window.location.href = "items.html"; // ➜ redireciona pra listagem
+      return;
     }
+
+    alert("✅ Item adicionado com sucesso!");
+    window.location.href = "items.html";
   });
 });

@@ -1,12 +1,29 @@
+/* 1 — fontes */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap');
 
+/* 2 — tokens / variáveis */
 @import 'tokens.css';
+
+/* 3 — resets e base global */
 @import 'main.css';
-@import 'auth.css';
-@import 'components.css';
-@import 'navbar.css';
-@import 'home.css';
-@import 'new-item.css';
-@import 'items.css';
+
+/* 4 — design system base (cores, espaçamentos, tipografia, inputs, botões etc.) */
 @import 'design-system.css';
+
+/* 5 — componentes globais (cards, botões, inputs etc.) */
+@import 'components.css';
+
+/* 6 — utilidades (margin helpers etc.) */
 @import 'utilities.css';
+
+/* 7 — layout fixo / navbar */
+@import 'navbar.css';
+
+/* 8 — páginas individuais (SEMPRE DEPOIS DE TUDO)
+   cada página sobrescreve somente o que precisa
+*/
+@import 'home.css';
+@import 'auth.css';
+@import 'item.css';
+@import 'items.css';
+@import 'new-item.css';
