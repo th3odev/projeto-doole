@@ -11,7 +11,7 @@ window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       .select("*")
       .limit(1);
     if (error) throw error;
-    console.log("✅ Supabase conectado e acessando a tabela categories!");
+    console.log("✅ Supabase conectado e acessando db!");
   } catch (err) {
     console.error("❌ Erro na conexão com Supabase:", err.message);
   }

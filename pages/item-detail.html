@@ -11,49 +11,51 @@
 </head>
 
 <body>
-  <header id="navbar"></header>
+  <header id="navbar" role="banner"></header>
 
-  <main class="item-detail">
+  <main class="item-detail" id="main" role="main">
     <div class="item-detail__container">
       <a href="items.html" class="item-detail__back" aria-label="Voltar para itens disponíveis">
-        <img src="../assets/img/icons/voltar.svg" alt="" class="item-detail__back-icon">
+        <img src="../assets/img/icons/voltar.svg" alt="" class="item-detail__back-icon" />
         <span>Itens disponíveis</span>
       </a>
 
-      <div class="item-detail__content">
+      <div class="item-detail__content" role="region" aria-labelledby="item-titulo">
         <div class="item-detail__gallery">
           <div class="item-detail__main-image-wrapper mb-3">
-            <img id="imagem-principal" src="../assets/img/placeholder.png" alt="Imagem principal do item" class="item-detail__main-image">
+            <img id="imagem-principal" src="../assets/img/placeholder.webp" alt="Imagem principal do item" class="item-detail__main-image" />
           </div>
 
-          <div class="item-detail__thumbnails">
-            <div id="galeria" class="item-detail__thumbnail-list"></div>
+          <div class="item-detail__thumbnails" aria-label="Galeria de miniaturas" tabindex="0">
+            <div id="galeria" class="item-detail__thumbnail-list" aria-live="polite"></div>
           </div>
         </div>
 
-        <div class="item-detail__info">
+        <aside class="item-detail__info" aria-labelledby="item-titulo">
           <h1 class="item-detail__title">
-            <span id="item-titulo">Título do item</span><span class="item-detail__title-highlight">.</span>
+            <span id="item-titulo">Título do item</span><span class="item-detail__title-highlight" aria-hidden="true">.</span>
           </h1>
+
           <p class="item-detail__price" id="item-preco">R$ 0,00</p>
-          <div class="item-detail__meta">
-            <span class="item-detail__meta-item">
-              <img src="../assets/img/icons/localizacao.svg" alt="" aria-hidden="true" class="item-detail__meta-icon">
+
+          <div class="item-detail__meta" aria-hidden="false">
+            <span class="item-detail__meta-item" id="meta-local">
+              <img src="../assets/img/icons/localizacao.svg" alt="" class="item-detail__meta-icon" aria-hidden="true" />
               <span id="item-localizacao">Cidade, UF</span>
             </span>
 
-            <span class="item-detail__meta-item">
-              <img src="../assets/img/icons/categoria.svg" alt="" aria-hidden="true" class="item-detail__meta-icon">
+            <span class="item-detail__meta-item" id="meta-cat">
+              <img src="../assets/img/icons/categoria.svg" alt="" class="item-detail__meta-icon" aria-hidden="true" />
               <span id="item-categoria">Categoria</span>
             </span>
           </div>
 
-          <div class="item-detail__description">
+          <div class="item-detail__description" id="descricao-block">
             <h4 class="item-detail__description-title">Descrição do item</h4>
             <p id="item-descricao" class="item-detail__description-text">Carregando...</p>
           </div>
 
-          <div class="item-detail__offer">
+          <div class="item-detail__offer" aria-live="polite">
             <div class="item-detail__offer-row">
               <span>Total de ofertas:</span>
               <strong id="qtd-ofertas">0</strong>
@@ -62,31 +64,31 @@
               <span>Lance mais alto:</span>
               <strong id="maior-oferta">R$0,00</strong>
             </div>
-            <button id="btn-oferta" class="btn btn--primary w-100" type="button">
-              <img src="../assets/img/icons/martelo-oferta.svg" alt="" class="btn__icon">
+            <button id="btn-oferta" class="btn btn--primary w-100" type="button" aria-label="Fazer oferta">
+              <img src="../assets/img/icons/martelo-oferta.svg" alt="" class="btn__icon" />
               Fazer Oferta
             </button>
           </div>
-        </div>
+        </aside>
       </div>
 
-      <section class="item-detail__related">
-        <h2 class="item-detail__related-title">
-          Itens parecidos<span class="text-primary">.</span>
+      <section class="item-detail__related" aria-labelledby="related-title">
+        <h2 id="related-title" class="item-detail__related-title">
+          Itens parecidos<span class="text-primary" aria-hidden="true">.</span>
         </h2>
-        <div id="itens-relacionados" class="item-detail__related-grid"></div>
+
+        <div id="itens-relacionados" class="item-detail__related-grid" aria-live="polite"></div>
       </section>
     </div>
   </main>
 
-  <footer class="bg-primary text-center py-3 text-white small">
-    © Doole · Alguns Direitos Reservados.
+  <footer class="bg-primary text-center py-3 text-white" role="contentinfo">
+    <small>© Doole · Alguns Direitos Reservados.</small>
   </footer>
 
-  <!-- SCRIPTS CORRETOS -->
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-
   <script src="../assets/js/core/supabaseClient.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/pages/item-detail.js"></script>

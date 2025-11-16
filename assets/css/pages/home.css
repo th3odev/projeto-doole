@@ -1,4 +1,4 @@
-/* ===== HERO SECTION ===== */
+/* hero */
 .hero {
   background-color: var(--cor-fundo);
   padding: var(--espacamento-secao) var(--margem-lateral);
@@ -33,7 +33,7 @@
 
 .hero__description {
   font-family: var(--fonte-texto);
-  color: var(--cinza-600);
+  color: var(--cinza-500);
   margin-top: 16px;
   margin-bottom: 24px;
   font-size: 1rem;
@@ -57,7 +57,7 @@
   box-shadow: var(--sombra-suave);
 }
 
-/* ===== HOW IT WORKS SECTION ===== */
+/* como funciona */
 .how-it-works {
   background-color: var(--cor-branca);
   padding: var(--espacamento-secao) var(--margem-lateral);
@@ -108,14 +108,14 @@
 
 .how-it-works__item-description {
   font-family: var(--fonte-texto);
-  color: var(--cinza-600);
+  color: var(--cinza-500);
   font-size: 0.95rem;
   line-height: 1.5;
   margin: 0 auto;
   max-width: 260px;
 }
 
-/* ===== CTA SECTION ===== */
+/* cta */
 .cta {
   background-color: var(--cor-texto);
   color: var(--cor-branca);
@@ -172,7 +172,7 @@
   background-color: var(--cor-principal-hover);
 }
 
-/* ===== RESPONSIVO ===== */
+/* responsivo */
 @media (max-width: 992px) {
 
   .hero__container,

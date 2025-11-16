@@ -6,16 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adicionar Item — Doole</title>
   <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml" />
-
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- CSS Global -->
   <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 
 <body class="new-item-page">
-  <!-- Navbar -->
   <header id="navbar"></header>
 
   <main class="new-item-page__container">
@@ -25,10 +20,7 @@
         Preencha as informações do item que você quer doar, vender ou descartar.
       </p>
 
-      <!-- Formulário -->
       <form id="new-item-form" class="new-item-page__form" enctype="multipart/form-data">
-
-        <!-- Upload -->
         <div class="new-item-page__section">
           <label for="item-images" class="form__label">Fotos do item</label>
 
@@ -47,37 +39,32 @@
           <div id="preview-container" class="upload__preview"></div>
         </div>
 
-        <!-- Título -->
         <div class="form__group">
           <label for="titulo" class="form__label">Título</label>
           <input type="text" id="titulo" class="form__input" placeholder="Exemplo: Sofá com 3 lugares em ótimo estado" required />
         </div>
 
-        <!-- Descrição -->
         <div class="form__group">
           <label for="descricao" class="form__label">Descrição</label>
           <textarea id="descricao" class="form__input" rows="3" placeholder="Descreva o estado, características e detalhes do item..." required></textarea>
         </div>
 
         <div class="row">
-          <!-- Categoria -->
           <div class="col-md-6 form__group">
             <label for="categoria" class="form__label">Categoria</label>
-            <select id="categoria" class="form__input" aria-label="Selecionar categoria" required>
+            <select id="categoria" class="form__input" required>
               <option value="">Selecione</option>
             </select>
           </div>
 
-          <!-- Cidade -->
           <div class="col-md-4 form__group">
             <label for="cidade" class="form__label">Cidade</label>
             <input type="text" id="cidade" class="form__input" placeholder="Ex: São Paulo" required />
           </div>
 
-          <!-- UF -->
           <div class="col-md-2 form__group">
             <label for="uf" class="form__label">UF</label>
-            <select id="uf" class="form__input" aria-label="Selecionar estado" required>
+            <select id="uf" class="form__input" required>
               <option value="">UF</option>
               <option>AC</option>
               <option>AL</option>
@@ -111,16 +98,14 @@
         </div>
 
         <div class="row">
-          <!-- Tipo -->
           <div class="col-md-6 form__group">
             <label for="tipo" class="form__label">Tipo de oferta</label>
-            <select id="tipo" class="form__input" aria-label="Selecionar tipo de oferta" required>
+            <select id="tipo" class="form__input" required>
               <option value="doacao">Doação</option>
               <option value="venda">Venda</option>
             </select>
           </div>
 
-          <!-- Preço -->
           <div class="col-md-6 form__group">
             <label for="preco" class="form__label">Valor</label>
             <input type="text" id="preco" class="form__input" placeholder="R$ 0,00" />
@@ -128,21 +113,20 @@
         </div>
 
         <div class="new-item-page__actions">
-          <button type="submit" class="btn btn--blue">
-            + Adicionar Item
-          </button>
+          <button type="submit" class="btn btn--blue">+ Adicionar Item</button>
         </div>
+
       </form>
     </div>
   </main>
 
-  <!-- SCRIPTS CORRETOS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-
   <script src="../assets/js/core/supabaseClient.js"></script>
+  <script type="module" src="../assets/js/components/navbar.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/pages/new-item.js"></script>
+
 </body>
 
 </html>

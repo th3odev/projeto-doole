@@ -1,23 +1,111 @@
-/* ===== NAVBAR COM 1440px APENAS ===== */
-.navbar {
-  background: var(--cor-branca);
-  padding: var(--espaco-3) 0;
+/* header stickky */
+header#navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+/* navbar full width */
+.navbar {
+  width: 100%;
+  background: var(--cor-branca);
+  padding: 1rem 0;
   box-shadow: var(--sombra-suave);
 }
 
+/* container seguindo o grid */
 .navbar__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 var(--espaco-4);
-  width: 100%;
+  padding-left: 140px;
+  padding-right: 140px;
 }
 
+/* logo */
 .navbar__logo {
   height: 40px;
+}
+
+/* actions */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* dropdown do usuário (tenho q melhorar mais) */
+
+/* remove seta padrão do bootstrap */
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+/* evita espaço sobrando causado pela seta */
+.btn--profile.dropdown-toggle {
+  padding-right: 0 !important;
+}
+
+.dropdown-menu {
+  border-radius: 10px;
+  padding: 10px 0;
+  border: 1px solid var(--cinza-200);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
+  animation: dropdownFade .15s ease-out;
+}
+
+/* itens */
+.dropdown-item {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+}
+
+.dropdown-item:hover {
+  background-color: var(--cinza-100);
+}
+
+/* divisor */
+.dropdown-divider {
+  margin: 6px 0;
+}
+
+/* animação */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* responsivo*/
+
+@media (max-width: 1200px) {
+  .navbar__container {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 0;
+  }
+
+  .navbar__container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .navbar__actions {
+    gap: 0.75rem;
+  }
 }

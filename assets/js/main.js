@@ -1,64 +1,7 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const navbarContainer = document.getElementById("navbar");
-  if (!navbarContainer) return;
+// main.js — scripts globais do Doole
 
-  try {
-    // Verifica sessão atual do usuário
-    const { data, error } = await supabase.auth.getSession();
-    const session = data?.session;
+import { renderNavbar } from "./components/navbar.js";
 
-    // Navbar deslogado - COM NOVAS CLASSES
-    const navbarDeslogado = `
-  <nav class="navbar">
-    <div class="navbar__container">
-      <a href="../index.html" class="navbar__brand">
-        <img src="../assets/img/logo.png" alt="Doole" class="navbar__logo">
-      </a>
-      <a href="../pages/auth.html" class="btn btn--primary">Login / Cadastro</a>
-    </div>
-  </nav>
-`;
-
-    // Navbar logado - COM NOVAS CLASSES
-    const navbarLogado = `
-  <nav class="navbar">
-    <div class="navbar__container">
-      <a href="../index.html" class="navbar__brand">
-        <img src="../assets/img/logo.png" alt="Doole" class="navbar__logo">
-      </a>
-
-      <div class="navbar__actions">
-        <a href="../pages/new-item.html" class="btn btn--primary">+ Adicionar Item</a>
-
-        <div class="dropdown">
-          <button class="btn btn--profile dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../assets/img/icons/user.svg" alt="Perfil" class="btn--profile__icon">
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="../pages/profile.html">Perfil</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#" id="logout-btn">Sair</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
-`;
-
-    // Renderiza navbar conforme o estado do login
-    navbarContainer.innerHTML = session ? navbarLogado : navbarDeslogado;
-
-    // Logout (se logado)
-    if (session) {
-      const logoutBtn = document.getElementById("logout-btn");
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", async () => {
-          await supabase.auth.signOut();
-          window.location.href = "../pages/auth.html";
-        });
-      }
-    }
-  } catch (err) {
-    console.error("Erro ao carregar navbar:", err.message);
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  renderNavbar();
 });

@@ -1,4 +1,4 @@
-/* ===== CARD BASE ===== */
+/* cards base */
 .card {
   background-color: var(--cor-branca);
   border-radius: 8px;
@@ -12,7 +12,7 @@
   box-shadow: var(--sombra-media);
 }
 
-/* ===== CARD DE ITEM ===== */
+/* card de item */
 .card--item {
   border: 1px solid #eee;
   border-radius: 12px;
@@ -24,8 +24,8 @@
 }
 
 .card--item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
 .card--item__image {
@@ -47,14 +47,12 @@
   font-weight: 700;
   margin: 0;
 
-  /* Text truncation - compatível com todos os browsers */
+  /* text truncation */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  /* Standard property for future compatibility */
   line-clamp: 1;
 }
 
@@ -64,14 +62,12 @@
   line-height: 1.4;
   margin: 0;
 
-  /* Text truncation - compatível com todos os browsers */
+  /* text truncation */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  /* Standard property for future compatibility */
   line-clamp: 2;
 }
 
@@ -104,7 +100,7 @@
   white-space: nowrap;
 }
 
-/* ===== CARD RELACIONADO ===== */
+/* card do item-detail */
 .card--related {
   border: 1px solid #eee;
   border-radius: 12px;
@@ -123,7 +119,7 @@
   object-fit: cover;
 }
 
-/* ===== RESPONSIVO ===== */
+/* responsivo */
 @media (max-width: 480px) {
   .card--item__image {
     height: 180px;

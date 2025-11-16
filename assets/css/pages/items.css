@@ -1,13 +1,14 @@
-/* ===== ITEMS PAGE ===== */
 .items-page {
   padding: var(--espacamento-secao) var(--margem-lateral);
 }
 
+/* centralizar */
 .items-page__container {
   max-width: var(--largura-maxima);
   margin: 0 auto;
 }
 
+/* header */
 .items-page__header {
   display: flex;
   justify-content: space-between;
@@ -20,54 +21,133 @@
 .items-page__title {
   font-family: var(--fonte-titulo);
   color: var(--cor-texto);
-  margin-bottom: 0;
+  margin: 0;
 }
 
-.items-page__filters {
+/* filtros */
+.filters {
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
   align-items: center;
+  width: 100%;
 }
 
-/* ===== ITEMS GRID ===== */
+/* para selects */
+.filters select {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* grid items */
+
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  padding: 0 4px;
+  gap: var(--gap-elementos);
+  width: 100%;
+  grid-template-columns: 1fr;
+  /* mobile: 1 coluna */
+  align-items: start;
+  padding: 0;
 }
 
-/* ===== RESPONSIVO ===== */
-@media (max-width: 1200px) {
-  .items-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 992px) {
+/* tablet (≥ 768px): 2 colunas */
+@media (min-width: 768px) {
   .items-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
+/* desktop (≥ 1200px): 4 colunas */
+@media (min-width: 1200px) {
+  .items-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* se sobrar 1 item, centraliza (melhor UX no mobile) */
+.items-grid.center-mobile {
+  justify-items: center;
+}
+
+/* ajustes, alinhamento, truncamento e responsividade*/
+
+/* garantir que o card ocupe 100% da coluna */
+.card--item {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* header do card: título + badge */
+.card--item__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* título truncado corretamente */
+.card--item__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* badge fixa no canto direito */
+.card--item__header .badge {
+  flex: 0 0 auto;
+  margin-left: 0.5rem;
+}
+
+/* localização */
+.card--item__location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--cinza-600);
+  min-width: 0;
+}
+
+.card--item__location span {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* imagens no mobile */
+@media (max-width: 480px) {
+  .card--item__image {
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .card--item__title {
+    font-size: 1rem;
+  }
+}
+
+/* responsividade da header e dos filtros */
+
+@media (max-width: 992px) {
   .items-page__header {
     flex-direction: column;
     align-items: stretch;
-    width: 100%;
     gap: 12px;
   }
 }
 
 @media (max-width: 768px) {
-  .items-grid {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    padding: 0;
-  }
-
-  .items-page__filters {
+  .filters {
     flex-direction: column;
     align-items: stretch;
-    width: 100%;
   }
 }

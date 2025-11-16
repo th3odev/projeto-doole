@@ -1,4 +1,3 @@
-/* ===== RESET GLOBAL ===== */
 *,
 *::before,
 *::after {
@@ -37,5 +36,3 @@ img {
   height: auto;
   display: block;
 }
-
-/* ... resto do reset puro ... */

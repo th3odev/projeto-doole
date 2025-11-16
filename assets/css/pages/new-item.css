@@ -1,15 +1,19 @@
-/* ===== NEW ITEM PAGE ===== */
 .new-item-page {
-  padding: var(--espacamento-secao) var(--margem-lateral);
   background-color: var(--cor-fundo);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* container central*/
 .new-item-page__container {
   max-width: var(--largura-maxima);
   margin: 0 auto;
+  padding: var(--espacamento-secao) var(--margem-lateral);
+  flex: 1;
 }
 
+/* card principal */
 .new-item-page__card {
   background-color: var(--cor-branca);
   border: 1px solid #d9d9d9;
@@ -20,6 +24,7 @@
   box-shadow: var(--sombra-suave);
 }
 
+/* título */
 .new-item-page__title {
   font-family: var(--fonte-titulo);
   font-weight: 600;
@@ -28,12 +33,14 @@
   text-align: center;
 }
 
+/* formulario */
 .new-item-page__form {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-5);
 }
 
+/* seções do form */
 .new-item-page__section {
   padding-bottom: var(--espaco-5);
   border-bottom: 1px solid var(--cinza-200);
@@ -43,6 +50,7 @@
   border-bottom: none;
 }
 
+/* titulo da seção */
 .new-item-page__section-title {
   font-family: var(--fonte-titulo);
   font-weight: 600;
@@ -50,6 +58,7 @@
   margin-bottom: var(--espaco-4);
 }
 
+/* nota sobre o preço (só em vendas) */
 .new-item-page__price-note {
   font-size: 0.85rem;
   color: var(--cinza-500);
@@ -57,6 +66,7 @@
   font-style: italic;
 }
 
+/* ações */
 .new-item-page__actions {
   display: flex;
   gap: var(--espaco-4);
@@ -64,7 +74,7 @@
   margin-top: var(--espaco-6);
 }
 
-/* ===== RESPONSIVO ===== */
+/* responsivo */
 @media (max-width: 768px) {
   .new-item-page__card {
     padding: 32px;
@@ -82,7 +92,7 @@
     margin: 16px auto;
   }
 
-  .new-item-page {
+  .new-item-page__container {
     padding: var(--espaco-4) var(--margem-lateral);
   }
 }

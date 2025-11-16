@@ -1,6 +1,4 @@
-/* ===== UTILITY CLASSES ===== */
-
-/* Text utilities */
+/* text utilities */
 .text-center {
   text-align: center;
 }
@@ -25,7 +23,7 @@
   color: var(--cinza-600);
 }
 
-/* Background utilities */
+/* background utilities */
 .bg-white {
   background-color: var(--cor-branca);
 }
@@ -38,7 +36,12 @@
   background-color: var(--cinza-100);
 }
 
-/* Spacing utilities */
+.title__dot,
+.item-detail__title-highlight {
+  color: var(--cor-principal-1);
+}
+
+/* spacing utilities */
 .m-0 {
   margin: 0;
 }
@@ -143,7 +146,7 @@
   padding-bottom: var(--espaco-6);
 }
 
-/* Display utilities */
+/* display utilities */
 .d-block {
   display: block;
 }
@@ -168,7 +171,7 @@
   display: none;
 }
 
-/* Flex utilities */
+/* flex utilities */
 .flex-column {
   flex-direction: column;
 }
@@ -193,7 +196,7 @@
   align-items: flex-start;
 }
 
-/* Grid utilities */
+/* grid utilities */
 .grid-2 {
   grid-template-columns: repeat(2, 1fr);
 }
@@ -206,7 +209,7 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* Border utilities */
+/* border utilities */
 .border-radius {
   border-radius: var(--borda-suave);
 }
@@ -219,7 +222,7 @@
   border-radius: var(--borda-grande);
 }
 
-/* Shadow utilities */
+/* shadow utilities */
 .shadow-sm {
   box-shadow: var(--sombra-suave);
 }
@@ -232,7 +235,7 @@
   box-shadow: var(--sombra-grande);
 }
 
-/* Width & Height utilities */
+/* width & Height utilities */
 .w-100 {
   width: 100%;
 }
@@ -245,7 +248,7 @@
   max-width: 100%;
 }
 
-/* Visibility */
+/* visibility */
 .visible {
   visibility: visible;
 }
@@ -254,7 +257,7 @@
   visibility: hidden;
 }
 
-/* Cursor */
+/* cursor */
 .cursor-pointer {
   cursor: pointer;
 }
@@ -263,7 +266,7 @@
   cursor: default;
 }
 
-/* Responsive utilities */
+/* responsive utilities */
 @media (max-width: 768px) {
   .md\:text-center {
     text-align: center;

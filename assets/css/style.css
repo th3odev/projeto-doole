@@ -1,29 +1,27 @@
-/* assets/css/style.css - NOVO ENTRY POINT ORGANIZADO */
-
-/* 1. BASE LAYER */
+/* 1. base */
 @import url('base/reset.css');
 @import url('base/typography.css');
 @import url('base/variables.css');
 
-/* 2. COMPONENTS LAYER */
+/* 2. componentes */
 @import url('components/buttons.css');
 @import url('components/forms.css');
 @import url('components/cards.css');
 @import url('components/badges.css');
 @import url('components/upload.css');
 
-/* 3. LAYOUT LAYER */
+/* 3. layout */
 @import url('layout/grid.css');
 @import url('layout/navbar.css');
 @import url('layout/sections.css');
 
-/* 4. PAGES LAYER */
+/* 4. paginas */
 @import url('pages/home.css');
 @import url('pages/auth.css');
 @import url('pages/items.css');
-@import url('pages/item-detail.css');
 @import url('pages/new-item.css');
 @import url('pages/profile.css');
+@import url('pages/item-detail.css');
 
-/* 5. UTILITIES LAYER */
+/* 5. utilidades */
 @import url('utilities/utilities.css');

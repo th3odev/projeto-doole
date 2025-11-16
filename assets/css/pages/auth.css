@@ -1,4 +1,4 @@
-/* ===== AUTH PAGES ===== */
+/* pagina de login/cadastro */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -10,7 +10,7 @@
 
 .auth-page__card {
   background-color: var(--cor-branca);
-  border: 1px solid #d7d6d5;
+  border: 1px solid var(--cinza-300);
   border-radius: var(--borda-media);
   box-shadow: var(--sombra-suave);
   padding: 40px 48px;
@@ -47,7 +47,7 @@
 }
 
 .auth-page__footer-link {
-  color: var(--cor-principal-1);
+  color: var(--cor-principal-1) !important;
   font-weight: 500;
   text-decoration: none;
 }
@@ -56,7 +56,7 @@
   text-decoration: underline;
 }
 
-/* ===== RESPONSIVO ===== */
+/* responsivo */
 @media (max-width: 480px) {
   .auth-page__card {
     padding: 32px 24px;

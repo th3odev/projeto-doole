@@ -1,4 +1,3 @@
-/* ===== UPLOAD COMPONENT ===== */
 .upload {
   width: 100%;
 }
@@ -51,7 +50,7 @@
   font-weight: 600;
 }
 
-/* ===== PREVIEW DE IMAGENS ===== */
+/* preview das imagens */
 .upload__preview {
   display: flex;
   flex-wrap: wrap;
@@ -94,12 +93,12 @@
   background: rgba(0, 0, 0, 0.9);
 }
 
-/* ===== INPUT HIDDEN ===== */
+/* input hidden */
 .upload__input {
   display: none;
 }
 
-/* ===== RESPONSIVO ===== */
+/* responsivo */
 @media (max-width: 480px) {
   .upload__area {
     padding: 40px 12px;
@@ -113,4 +112,50 @@
     width: 80px;
     height: 80px;
   }
+}
+
+/* preview com o x na foto */
+
+.upload__preview {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.upload__preview-item {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.upload__preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload__remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.upload__remove-btn:hover {
+  background: var(--cor-principal-1);
 }

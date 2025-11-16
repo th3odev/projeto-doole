@@ -1,35 +1,27 @@
-/* ===== BOTÕES BASE ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   font-family: var(--fonte-texto);
   font-weight: 700;
   font-size: 1rem;
-  text-transform: uppercase;
+
   padding: 10px 20px;
   border-radius: 4px;
-  transition: all 0.2s ease;
+
+  text-transform: uppercase;
   letter-spacing: 0.5px;
-  text-decoration: none;
-  border: 2px solid transparent;
-  cursor: pointer;
-  gap: 8px;
   white-space: nowrap;
+
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+
+  transition: background-color .2s ease;
 }
 
-/* ===== TAMANHOS ===== */
-.btn--sm {
-  padding: 8px 16px;
-  font-size: 0.9rem;
-}
-
-.btn--lg {
-  padding: 12px 24px;
-  font-size: 1.1rem;
-}
-
-/* ===== VARIAÇÕES ===== */
+/* botão primário */
 .btn--primary {
   background-color: var(--cor-principal-1);
   color: var(--cor-branca);
@@ -37,19 +29,18 @@
 
 .btn--primary:hover {
   background-color: var(--cor-principal-hover);
-}
-
-.btn--outline {
-  background-color: transparent;
-  border-color: var(--cor-principal-1);
-  color: var(--cor-principal-1);
-}
-
-.btn--outline:hover {
-  background-color: var(--cor-principal-1);
   color: var(--cor-branca);
 }
 
+/* responsivo */
+@media (max-width: 768px) {
+  .btn--primary {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}
+
+/* botão azul/secundário (novo item) */
 .btn--blue {
   background-color: var(--cor-azul);
   color: var(--cor-branca);
@@ -57,34 +48,47 @@
 
 .btn--blue:hover {
   background-color: #021f30;
+  color: var(--cor-branca);
 }
 
-/* ===== BOTÃO DE PERFIL ===== */
+/* botão do perfil */
+
 .btn--profile {
   width: 42px;
   height: 42px;
   border-radius: 50%;
   padding: 0;
   background-color: var(--cor-principal-1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.btn--profile:hover {
-  background-color: var(--cor-principal-hover);
-}
-
+/* ícone */
 .btn--profile__icon {
   width: 22px;
   height: 22px;
   filter: brightness(0) invert(1);
 }
 
-/* ===== RESPONSIVO ===== */
-@media (max-width: 768px) {
-  .btn {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
+.btn--profile:hover {
+  background-color: var(--cor-principal-hover) !important;
+}
 
+/* remove estados bregas feios chatos do bootstrap eww */
+.btn--profile:focus,
+.btn--profile:active,
+.btn--profile.show,
+.show>.btn--profile.dropdown-toggle,
+.btn--profile:not(:disabled):active {
+  background-color: var(--cor-principal-1) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* reponsivo */
+@media (max-width: 768px) {
   .btn--profile {
     width: 36px;
     height: 36px;
