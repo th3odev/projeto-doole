@@ -1,7 +1,8 @@
-// main.js — scripts globais do Doole
-
-import { renderNavbar } from "./components/navbar.js";
+// main.js — versão SEM MODULES
+// Torna a função renderNavbar global
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderNavbar();
+  if (window.renderNavbar) {
+    window.renderNavbar();
+  }
 });

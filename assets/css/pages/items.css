@@ -72,15 +72,21 @@
 
 /* ajustes, alinhamento, truncamento e responsividade*/
 
-/* garantir que o card ocupe 100% da coluna */
+/* garantir q o card ocupe 100% da coluna */
 .card--item {
-  width: 100%;
-  max-width: 100%;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  /* ocupa toda a coluna do grid */
+  max-width: 100%;
+  /* evita quebrar layout */
 }
 
-/* header do card: título + badge */
+
+/* header do card */
 .card--item__header {
   display: flex;
   align-items: center;
@@ -113,6 +119,10 @@
   font-size: 0.85rem;
   color: var(--cinza-600);
   min-width: 0;
+}
+
+.span {
+  color: var(--cor-principal-1);
 }
 
 .card--item__location span {

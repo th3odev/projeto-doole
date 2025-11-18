@@ -59,16 +59,17 @@
 .card--item__description {
   color: #6c6c6c;
   font-size: 0.9rem;
-  line-height: 1.4;
+  line-height: 1.35;
   margin: 0;
+  min-height: 40px;
+  max-height: 40px;
 
-  /* text truncation */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-clamp: 2;
 }
 
 .card--item__footer {
@@ -100,7 +101,7 @@
   white-space: nowrap;
 }
 
-/* card do item-detail */
+/* card da pagina de item */
 .card--related {
   border: 1px solid #eee;
   border-radius: 12px;

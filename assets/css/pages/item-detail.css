@@ -132,7 +132,7 @@
   align-items: center;
 }
 
-/* scoped rule: evita util .text-primary impactar aqui */
+/* scoped rule p evitar util .text-primary impactar aqui */
 .item-detail__meta-item,
 .item-detail__meta-item span {
   color: var(--cinza-500);
@@ -221,11 +221,6 @@
   color: var(--cor-texto);
 }
 
-/* utility: garantir util.text-primary mas n sei se é necessário vou deixar comentado por enquanto
- .text-primary {
-  color: var(--cor-principal-1) !important;
-} */
-
 /* grid fixo  */
 .item-detail__related-grid {
   display: grid;
@@ -254,7 +249,6 @@
   height: 150px;
   object-fit: cover;
   border: none;
-  /* remove border outlines */
   box-shadow: none;
 }
 
@@ -288,6 +282,10 @@
 .item-detail__thumbnail,
 .card--related--small .card--item__image {
   max-width: 100%;
+}
+
+.span {
+  color: var(--cor-principal-1);
 }
 
 /* reponsivo */

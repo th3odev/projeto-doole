@@ -32,6 +32,42 @@
   color: var(--cor-branca);
 }
 
+/* botões perfil */
+.btn-small-blue {
+  background: var(--cor-azul);
+  /* azul escuro */
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  border: none;
+  text-align: center;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.btn-small-blue:hover {
+  background: #003958;
+}
+
+.btn-small-delete {
+  background: var(--cor-azul);
+  /* laranja */
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  border: none;
+  text-align: center;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.btn-small-delete:hover {
+  background: #e64e00;
+}
+
+
 /* responsivo */
 @media (max-width: 768px) {
   .btn--primary {
