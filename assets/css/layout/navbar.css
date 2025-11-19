@@ -1,11 +1,9 @@
-/* header stickky */
 header#navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-/* navbar full width */
 .navbar {
   width: 100%;
   background: var(--cor-branca);
@@ -13,7 +11,6 @@ header#navbar {
   box-shadow: var(--sombra-suave);
 }
 
-/* container seguindo o grid */
 .navbar__container {
   display: flex;
   justify-content: space-between;
@@ -37,14 +34,10 @@ header#navbar {
   gap: 1.25rem;
 }
 
-/* dropdown do usuário (tenho q melhorar mais) */
-
-/* remove seta padrão do bootstrap */
 .dropdown-toggle::after {
   display: none !important;
 }
 
-/* evita espaço sobrando causado pela seta */
 .btn--profile.dropdown-toggle {
   padding-right: 0 !important;
 }

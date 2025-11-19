@@ -1,8 +1,9 @@
 // ==============================
-// ITEM DETAIL PAGE — DOOLE (otimizado)
+// ITEM DETAIL PAGE — DOOLE
 // ==============================
 
 import { escapeHtml, formatPrice } from "../core/utils.js";
+import { initOfferModal } from "../components/offer-modal.js";
 
 // Elements
 const elTitulo = document.getElementById("item-titulo");
@@ -21,6 +22,11 @@ const elRelacionados = document.getElementById("itens-relacionados");
 
 const placeholder = "../assets/img/placeholder.png";
 
+// mantemos o maior lance e o dono do item
+let maiorOfertaAtual = 0;
+let donoItemId = null;
+let tipoItem = null; // << ESSENCIAL para detectar "doacao"
+
 // Helpers
 function getItemId() {
   const params = new URLSearchParams(window.location.search);
@@ -32,7 +38,9 @@ function safeText(node, text) {
   node.textContent = text ?? "";
 }
 
-// Load main item
+// =======================================
+// LOAD ITEM PRINCIPAL
+// =======================================
 async function loadItem() {
   const id = getItemId();
   if (!id) {
@@ -56,6 +64,12 @@ async function loadItem() {
       return;
     }
 
+    // salva dono do item
+    donoItemId = data.usuario_id;
+
+    // salva tipo (pra saber se é doação)
+    tipoItem = data.tipo;
+
     safeText(elTitulo, data.titulo || "Sem título");
     safeText(
       elPreco,
@@ -65,13 +79,14 @@ async function loadItem() {
     safeText(elLocal, data.localizacao || "-");
     safeText(elCat, data.categorias?.nome || "Categoria");
 
-    // gallery
+    // GALLERY
     const imgs = Array.isArray(data.imagens)
       ? data.imagens.filter(Boolean)
       : [];
+
     if (!imgs.length) {
       setMainImage(placeholder);
-      if (elGaleria) elGaleria.innerHTML = "";
+      elGaleria.innerHTML = "";
     } else {
       setMainImage(imgs[0]);
       renderGallery(imgs, data.titulo);
@@ -83,7 +98,9 @@ async function loadItem() {
   }
 }
 
-// Gallery render
+// =======================================
+// GALLERY RENDER
+// =======================================
 function renderGallery(imgs = [], title = "") {
   if (!elGaleria) return;
   elGaleria.innerHTML = "";
@@ -110,43 +127,29 @@ function renderGallery(imgs = [], title = "") {
     elGaleria.appendChild(img);
   });
 
-  // active first thumb
   const first = elGaleria.querySelector("img");
   setActiveThumb(first);
 }
 
-// active thumb + try to center
 function setActiveThumb(selected) {
   if (!elGaleria) return;
+
   elGaleria
     .querySelectorAll("img")
     .forEach((t) => t.classList.remove("item-detail__thumbnail--active"));
+
   if (!selected) return;
   selected.classList.add("item-detail__thumbnail--active");
-
-  // try center
-  try {
-    const rect = selected.getBoundingClientRect();
-    const parentRect = elGaleria.getBoundingClientRect();
-    if (rect.left < parentRect.left || rect.right > parentRect.right) {
-      const offset =
-        rect.left - parentRect.left - (parentRect.width / 2 - rect.width / 2);
-      elGaleria.scrollBy({ left: offset, behavior: "smooth" });
-    }
-  } catch (e) {
-    /* ignore */
-  }
 }
 
 function setMainImage(src) {
-  if (!elPrincipal) return;
   elPrincipal.src = src || placeholder;
-  elPrincipal.alt = elTitulo?.textContent
-    ? `${elTitulo.textContent}`
-    : "Imagem do item";
+  elPrincipal.alt = elTitulo?.textContent || "Imagem do item";
 }
 
-// Offers
+// =======================================
+// OFERTAS
+// =======================================
 async function loadOffers(itemId) {
   try {
     const { data } = await supabase
@@ -155,17 +158,22 @@ async function loadOffers(itemId) {
       .eq("item_id", itemId)
       .order("valor", { ascending: false });
 
-    if (elQtdOfertas) elQtdOfertas.textContent = data?.length || 0;
-    const maior = data?.[0]?.valor ?? 0;
-    if (elMaiorOferta) elMaiorOferta.textContent = formatPrice(maior);
+    elQtdOfertas.textContent = data?.length || 0;
+    maiorOfertaAtual = data?.[0]?.valor ?? 0;
+
+    elMaiorOferta.textContent =
+      tipoItem === "doacao" ? "—" : formatPrice(maiorOfertaAtual);
   } catch (e) {
     console.error("Erro loadOffers:", e);
   }
 }
 
-// Related items
+// =======================================
+// RELACIONADOS
+// =======================================
 async function loadRelated(categoriaId, itemId) {
   if (!categoriaId) return;
+
   try {
     const { data } = await supabase
       .from("items")
@@ -174,7 +182,6 @@ async function loadRelated(categoriaId, itemId) {
       .neq("id", itemId)
       .limit(6);
 
-    if (!elRelacionados) return;
     elRelacionados.innerHTML = "";
 
     if (!data || data.length === 0) {
@@ -187,10 +194,12 @@ async function loadRelated(categoriaId, itemId) {
         Array.isArray(it.imagens) && it.imagens[0]
           ? it.imagens[0]
           : placeholder;
+
       const precoTxt = it.tipo === "doacao" ? "Grátis" : formatPrice(it.preco);
 
       const card = document.createElement("article");
       card.className = "card card--item card--related--small";
+
       card.innerHTML = `
         <img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(
         it.titulo
@@ -217,19 +226,25 @@ async function loadRelated(categoriaId, itemId) {
   }
 }
 
-// Init
-document.addEventListener("DOMContentLoaded", () => {
-  loadItem();
+// =======================================
+// INIT
+// =======================================
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadItem();
 
+  const itemId = getItemId();
   const btnOferta = document.getElementById("btn-oferta");
-  if (btnOferta) {
-    btnOferta.addEventListener("click", () => {
-      btnOferta.disabled = true;
-      btnOferta.style.opacity = "0.8";
-      setTimeout(() => {
-        btnOferta.disabled = false;
-        btnOferta.style.opacity = "";
-      }, 800);
-    });
-  }
+
+  // inicializa modal passando também o tipo
+  const modalOferta = initOfferModal(
+    supabase,
+    itemId,
+    maiorOfertaAtual,
+    donoItemId,
+    tipoItem // << novo
+  );
+
+  btnOferta.addEventListener("click", () => {
+    modalOferta.open();
+  });
 });

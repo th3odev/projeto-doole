@@ -9,6 +9,7 @@
 @import url('components/cards.css');
 @import url('components/badges.css');
 @import url('components/upload.css');
+@import url('components/modal.css');
 
 /* 3. layout */
 @import url('layout/grid.css');

@@ -1,0 +1,167 @@
+.doole-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.doole-modal.hidden {
+  display: none;
+}
+
+.doole-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.doole-modal__content {
+  position: relative;
+  z-index: 2;
+  background: white;
+  width: 95%;
+  max-width: 560px;
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: var(--sombra-media);
+}
+
+
+.doole-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.2s ease;
+  color: var(--cor-texto);
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+.doole-modal__close:hover {
+  opacity: 1;
+  color: var(--cor-principal-1);
+}
+
+.doole-modal__close:focus {
+  outline: none !important;
+}
+
+.doole-modal__title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.doole-field {
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.doole-field label {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.doole-input {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--cinza-300);
+  font-size: 15px;
+  background: white;
+  color: var(--cor-texto);
+}
+
+.doole-input:focus {
+  outline: 2px solid var(--cor-principal-1);
+  border-color: transparent;
+}
+
+/* escondido */
+.hidden {
+  display: none !important;
+}
+
+.doole-lance-min {
+  font-size: 14px;
+  margin: 4px 0 20px;
+  text-align: right;
+  color: var(--cinza-600);
+}
+
+#valor-retirada {
+  margin-top: 6px !important;
+}
+
+
+.lances-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.offer-card {
+  background: var(--cinza-100);
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: var(--sombra-suave);
+}
+
+.offer-card h4 {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.offer-card p {
+  margin: 2px 0;
+}
+
+.offer-card .small {
+  font-size: 13px;
+  color: var(--cinza-600);
+}
+
+.offer-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-accept {
+  flex: 1;
+  background: var(--cor-principal-1);
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-accept:hover {
+  opacity: .9;
+}
+
+.btn-reject {
+  flex: 1;
+  background: #ccc;
+  color: #222;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-reject:hover {
+  background: #bbb;
+}

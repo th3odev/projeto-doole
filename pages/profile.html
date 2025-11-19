@@ -40,13 +40,26 @@
   <footer class="bg-primary text-center py-3 text-white">
     <small>© Doole · Alguns Direitos Reservados.</small>
   </footer>
+  <!-- MODAL DE LANCES RECEBIDOS -->
+  <div id="offersModal" class="doole-modal hidden">
+    <div class="doole-modal__overlay" id="offersModalOverlay"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="../assets/js/core/supabaseClient.js"></script>
-  <script src="../assets/js/components/navbar.js"></script>
-  <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/pages/profile.js"></script>
+    <div class="doole-modal__content">
+      <button class="doole-modal__close" id="offersModalClose">×</button>
+
+      <h2 class="doole-modal__title">Lances Recebidos</h2>
+
+      <div id="offersModalList">
+        <p>Carregando...</p>
+      </div>
+    </div>
+  </div>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../assets/js/core/supabaseClient.js"></script>
+<script src="../assets/js/components/navbar.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/pages/profile.js"></script>
 
 </html>

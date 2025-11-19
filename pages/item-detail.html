@@ -85,14 +85,52 @@
   <footer class="bg-primary text-center py-3 text-white" role="contentinfo">
     <small>© Doole · Alguns Direitos Reservados.</small>
   </footer>
+  
+  <div id="modal-oferta" class="doole-modal hidden">
+    <div class="doole-modal__overlay" id="modal-overlay"></div>
 
+    <div class="doole-modal__content">
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="../assets/js/core/supabaseClient.js"></script>
-  <script src="../assets/js/components/navbar.js"></script>
-  <script type="module" src="../assets/js/main.js"></script>
-  <script type="module" src="../assets/js/pages/item-detail.js"></script>
+      <button class="doole-modal__close" id="modal-close">×</button>
+
+      <h2 class="doole-modal__title">Fazer Oferta</h2>
+
+      <div class="doole-modal__form">
+
+        <div class="doole-field">
+          <label for="select-retirada">Retirada:</label>
+
+          <select id="select-retirada" class="doole-input">
+            <option value="nao">Não cobro retirada</option>
+            <option value="sim">Cobro retirada</option>
+          </select>
+
+          <input id="valor-retirada" class="doole-input hidden" placeholder="Valor da retirada" type="text" />
+        </div>
+
+        <div class="doole-field">
+          <label for="valor-oferta">Valor</label>
+          <input id="valor-oferta" class="doole-input" placeholder="R$0,00" type="text" />
+        </div>
+
+        <p class="doole-lance-min">
+          Lance mínimo: <strong id="lance-minimo">R$0,00</strong>
+        </p>
+
+        <button id="btn-enviar-oferta" class="btn btn--primary w-100">
+          <img src="../assets/img/icons/martelo-oferta.svg" class="btn__icon" alt="icone de martelo" />
+          Fazer Oferta
+        </button>
+      </div>
+    </div>
+  </div>
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../assets/js/core/supabaseClient.js"></script>
+<script src="../assets/js/components/navbar.js"></script>
+<script type="module" src="../assets/js/main.js"></script>
+<script type="module" src="../assets/js/pages/item-detail.js"></script>
 
 </html>

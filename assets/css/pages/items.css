@@ -2,13 +2,11 @@
   padding: var(--espacamento-secao) var(--margem-lateral);
 }
 
-/* centralizar */
 .items-page__container {
   max-width: var(--largura-maxima);
   margin: 0 auto;
 }
 
-/* header */
 .items-page__header {
   display: flex;
   justify-content: space-between;
@@ -70,7 +68,7 @@
   justify-items: center;
 }
 
-/* ajustes, alinhamento, truncamento e responsividade*/
+/* ajustes, alinhamento, truncamento reponsividade e afins*/
 
 /* garantir q o card ocupe 100% da coluna */
 .card--item {
@@ -80,9 +78,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* ocupa toda a coluna do grid */
   max-width: 100%;
-  /* evita quebrar layout */
+
 }
 
 
@@ -95,7 +92,7 @@
 
 /* título truncado corretamente */
 .card--item__title {
-  font-size: 1.1rem;
+  font-size: 0.92rem;
   font-weight: 700;
   margin: 0;
   flex: 1 1 auto;

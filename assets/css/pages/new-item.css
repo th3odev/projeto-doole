@@ -5,7 +5,6 @@
   flex-direction: column;
 }
 
-/* container central*/
 .new-item-page__container {
   max-width: var(--largura-maxima);
   margin: 0 auto;
