@@ -10,6 +10,7 @@
 @import url('components/badges.css');
 @import url('components/upload.css');
 @import url('components/modal.css');
+@import url('components/chat.css');
 
 /* 3. layout */
 @import url('layout/grid.css');

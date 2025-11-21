@@ -1,26 +1,3 @@
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  font-family: var(--fonte-texto);
-  font-weight: 700;
-  font-size: 1rem;
-
-  padding: 10px 20px;
-  border-radius: 4px;
-
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-
-  transition: background-color .2s ease;
-}
-
 /* botão primário */
 .btn--primary {
   background-color: var(--cor-principal-1);
@@ -67,6 +44,28 @@
   background: #003958;
 }
 
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--fonte-texto);
+  font-weight: 700;
+  font-size: 1rem;
+
+  padding: 10px 20px;
+  border-radius: 4px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+
+  transition: background-color .2s ease;
+}
 
 /* responsivo */
 @media (max-width: 768px) {
@@ -111,6 +110,24 @@
   background-color: var(--cor-principal-hover) !important;
 }
 
+.btn-start-chat {
+  background: var(--cor-principal-1);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: -12px;
+  width: 100%;
+  transition: 0.2s ease;
+}
+
+.btn-start-chat:hover {
+  background: var(--cor-principal-hover);
+}
+
+
 /* remove estados bregas feios chatos do bootstrap eww */
 .btn--profile:focus,
 .btn--profile:active,
@@ -123,6 +140,8 @@
   box-shadow: none !important;
 }
 
+
+
 /* reponsivo */
 @media (max-width: 768px) {
   .btn--profile {
@@ -133,5 +152,10 @@
   .btn--profile__icon {
     width: 18px;
     height: 18px;
+  }
+
+  .btn--primary {
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
 }

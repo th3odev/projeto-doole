@@ -94,3 +94,29 @@ export const formatBRL = (value) => {
   const v = Number(value) / 100;
   return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 };
+
+// ===============================
+// FORMATAR "tempo atrás"
+// ===============================
+export function formatDistanceToNow(date) {
+  try {
+    const diff = Date.now() - new Date(date).getTime();
+    const sec = Math.floor(diff / 1000);
+    const min = Math.floor(sec / 60);
+    const hrs = Math.floor(min / 60);
+    const days = Math.floor(hrs / 24);
+
+    if (sec < 60) return "agora mesmo";
+    if (min < 60) return `${min} min atrás`;
+    if (hrs < 24) return `${hrs} h atrás`;
+    if (days < 7) return `${days} dias atrás`;
+
+    return new Intl.DateTimeFormat("pt-BR", {
+      dateStyle: "short",
+      timeStyle: "short",
+    }).format(new Date(date));
+  } catch (err) {
+    console.error("Erro formatDistanceToNow:", err);
+    return "";
+  }
+}

@@ -192,6 +192,30 @@
   background: var(--cinza-300);
 }
 
+/* evita descrição gigante quebrar o layout */
+.item-detail__description-text {
+  max-height: 200px;
+  overflow-y: auto;
+  word-break: break-word;
+  padding-right: 6px;
+
+}
+
+/* deixa o scroll mais bonito */
+.item-detail__description-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.item-detail__description-text::-webkit-scrollbar-thumb {
+  background: var(--cinza-300);
+  border-radius: 50px;
+}
+
+.item-detail__description-text::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
 /* card de oferta */
 .item-detail__offer {
   background: var(--cor-branca);

@@ -1,30 +1,35 @@
+// ===============================================
+// PROFILE.JS — versão estável e funcional
+// ===============================================
+import { initOffersManageModal } from "../components/offers-manage-modal.js";
+
 document.addEventListener("DOMContentLoaded", async () => {
   const supabase = window.supabase;
 
   const user = (await supabase.auth.getUser())?.data?.user;
+  if (!user) {
+    window.location.href = "./auth.html";
+    return;
+  }
 
-  // ELEMENTOS DO PERFIL
+  // ELEMENTOS
   const nameEl = document.getElementById("profileName");
   const emailEl = document.getElementById("profileEmail");
-
   const itemsList = document.getElementById("itemsList");
   const offersList = document.getElementById("offersList");
-
   const tabItems = document.getElementById("tabItems");
   const tabOffers = document.getElementById("tabOffers");
 
-  // ELEMENTOS DO MODAL DE LANCES
+  // MODAL DE OFERTAS
   const modal = document.getElementById("offersModal");
   const modalOverlay = document.getElementById("offersModalOverlay");
   const modalClose = document.getElementById("offersModalClose");
   const modalList = document.getElementById("offersModalList");
 
-  // FUNÇÕES DO MODAL
   function openOffersModal() {
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   }
-
   function closeOffersModal() {
     modal.classList.add("hidden");
     document.body.style.overflow = "";
@@ -33,81 +38,61 @@ document.addEventListener("DOMContentLoaded", async () => {
   modalOverlay.addEventListener("click", closeOffersModal);
   modalClose.addEventListener("click", closeOffersModal);
 
-  // ================================
-  //   CARREGAR LANCES DO ITEM
-  // ================================
+  // MÓDULO DE LANCES
+  const manageOffers = initOffersManageModal(supabase);
+
+  // =============================================================
+  // CARREGAR LANCES DO ITEM
+  // =============================================================
   async function loadOffersForItem(itemId) {
     modalList.innerHTML = "<p>Carregando...</p>";
 
     const { data, error } = await supabase
       .from("offers")
-      .select("*, users:usuario_id(nome)")
+      .select("*, users:usuario_id(nome), status, criado_em, retirada_valor")
       .eq("item_id", itemId)
       .order("valor", { ascending: false });
 
     if (error) {
       modalList.innerHTML = "<p>Erro ao carregar lances.</p>";
+      console.error(error);
       return;
     }
 
-    if (!data.length) {
+    if (!data || data.length === 0) {
       modalList.innerHTML = "<p>Nenhum lance recebido ainda.</p>";
       return;
     }
 
     modalList.innerHTML = "";
 
-    data.forEach((of) => {
-      const retiradaTxt =
-        of.retirada_valor > 0
-          ? `Cobrou retirada: R$${of.retirada_valor.toFixed(2)}`
-          : "Não cobra retirada";
-
-      modalList.innerHTML += `
-        <div class="offer-card">
-          <h4>${of.users?.nome || "Usuário"}</h4>
-          <p>Lance: <strong>R$${of.valor.toFixed(2)}</strong></p>
-          <p>${retiradaTxt}</p>
-          <p class="small">Data: ${new Date(of.criado_em).toLocaleString()}</p>
-
-          <div class="offer-card__actions">
-            <button class="btn-small-blue">Aceitar</button>
-            <button class="btn-small-delete">Recusar</button>
-          </div>
-        </div>
-      `;
+    manageOffers.renderOffersList({
+      offers: data,
+      modalList,
+      reload: loadOffersForItem,
     });
   }
 
-  // ================================
-  //   REDIRECIONAR SE NÃO LOGADO
-  // ================================
-  if (!user) {
-    window.location.href = "./auth.html";
-    return;
-  }
-
+  // =============================================================
+  // DADOS DO PERFIL
+  // =============================================================
   emailEl.textContent = user.email;
 
-  // ================================
-  //   NOME DO PERFIL
-  // ================================
   const { data: profile } = await supabase
     .from("users")
     .select("nome, sobrenome")
     .eq("id", user.id)
     .single();
 
-  let displayName = profile?.nome
-    ? profile.nome.trim() +
-      (profile.sobrenome ? ` ${profile.sobrenome[0].toUpperCase()}.` : "")
+  const displayName = profile?.nome
+    ? profile.nome + (profile.sobrenome ? ` ${profile.sobrenome[0]}.` : "")
     : user.email.split("@")[0];
 
   nameEl.textContent = displayName;
 
-  // ================================
-  //   CARREGAR MEUS ITENS
-  // ================================
+  // =============================================================
+  // MEUS ITENS (VENDEDOR)
+  // =============================================================
   async function loadMyItems() {
     const { data } = await supabase
       .from("items")
@@ -125,63 +110,67 @@ document.addEventListener("DOMContentLoaded", async () => {
       const img = item.imagens?.[0] || "../assets/img/placeholder.webp";
 
       itemsList.innerHTML += `
-        <div class="profile-item">
+  <div class="profile-item">
+    
+    <div class="profile-item__image">
+      <a href="./item-detail.html?id=${item.id}">
+        <img src="${img}">
+      </a>
+    </div>
 
-          <div class="profile-item__image">
-            <a href="./item-detail.html?id=${item.id}">
-              <img src="${img}">
-            </a>
-          </div>
+    <!-- WRAPPER ESSENCIAL PARA O ELLIPSIS FUNCIONAR -->
+    <div class="profile-item__info">
+      
+      <div class="profile-item__content">
+        <a href="./item-detail.html?id=${item.id}">
+          <h3 class="profile-item__title">${item.titulo}</h3>
+        </a>
 
-          <div class="profile-item__content">
-            <a href="./item-detail.html?id=${item.id}">
-              <h3 class="profile-item__title">${item.titulo}</h3>
-            </a>
+        <p class="profile-item__desc">${item.descricao}</p>
 
-            <p class="profile-item__desc">${item.descricao}</p>
-            <p class="profile-item__price">R$${Number(item.preco).toFixed(
-              2
-            )}</p>
-          </div>
+        <p class="profile-item__price">
+          R$${Number(item.preco || 0).toFixed(2)}
+        </p>
+      </div>
 
-          <div class="profile-item__actions">
-            <button class="btn-small-blue view-offers" data-id="${item.id}">
-              Ver Lances
-            </button>
-            <button class="btn-small-delete delete-item" data-id="${item.id}">
-              Excluir
-            </button>
-          </div>
+      <div class="profile-item__actions">
+        <button class="btn-small-blue view-offers" data-id="${item.id}">
+          Ver Lances
+        </button>
+        <button class="btn-small-delete delete-item" data-id="${item.id}">
+          Excluir
+        </button>
+      </div>
 
-        </div>
-      `;
+    </div>
+
+  </div>
+`;
     });
 
-    // --- DELETAR ITEM ---
+    // excluir
     document.querySelectorAll(".delete-item").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        const id = btn.dataset.id;
-
-        if (!confirm("Deseja realmente excluir este item?")) return;
-
-        await supabase.from("items").delete().eq("id", id);
+        if (!confirm("Deseja excluir este item?")) return;
+        await supabase.from("items").delete().eq("id", btn.dataset.id);
         loadMyItems();
       });
     });
 
-    // --- VER LANCES ---
+    // ver lances
     document.querySelectorAll(".view-offers").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        const id = btn.dataset.id;
-        await loadOffersForItem(id);
+        await loadOffersForItem(btn.dataset.id);
         openOffersModal();
       });
     });
   }
 
-  // ================================
-  //   CARREGAR MEUS LANCES ENVIADOS
-  // ================================
+  window.reloadProfileItems = loadMyItems;
+
+  // =============================================================
+  // MEUS LANCES (COMPRADOR)
+  // =============================================================
   async function loadMyOffers() {
     const { data } = await supabase
       .from("offers")
@@ -196,11 +185,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     data.forEach((of) => {
-      const img = of.items.imagens?.[0] || "../assets/img/placeholder.webp";
+      const img = of.items?.imagens?.[0] || "../assets/img/placeholder.webp";
 
       offersList.innerHTML += `
         <div class="profile-item">
-
           <div class="profile-item__image">
             <a href="./item-detail.html?id=${of.items.id}">
               <img src="${img}">
@@ -215,20 +203,55 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p class="profile-item__desc">
               Seu lance: R$${Number(of.valor).toFixed(2)}
             </p>
-          </div>
 
-          <div class="profile-item__actions">
-            <button class="btn-small-blue">Ver Item</button>
+            ${
+              of.status === "aceita"
+                ? `
+              <button class="btn-small-blue start-chat" data-item="${of.item_id}">
+                Iniciar Chat
+              </button>`
+                : ""
+            }
           </div>
-
         </div>
       `;
     });
+
+    // Ativar botões de iniciar chat
+    document.querySelectorAll(".start-chat").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const itemId = btn.dataset.item;
+
+        const { data: conv, error } = await supabase
+          .from("conversations")
+          .select("id")
+          .eq("item_id", itemId)
+          .maybeSingle();
+
+        if (error || !conv) {
+          alert("Erro: conversa não encontrada.");
+          return;
+        }
+
+        // abrir modal do chat
+        const modal = document.getElementById("chatModal");
+        const list = document.getElementById("chatList");
+        const convBox = document.getElementById("chatConversation");
+
+        modal.classList.remove("hidden");
+        modal.classList.add("open");
+
+        list.classList.add("hidden");
+        convBox.classList.remove("hidden");
+
+        window.loadChatConversation(conv.id);
+      });
+    });
   }
 
-  // ================================
-  //   TROCA ENTRE AS ABAS
-  // ================================
+  // =============================================================
+  // ABAS
+  // =============================================================
   tabItems.addEventListener("click", () => {
     tabItems.classList.add("active");
     tabOffers.classList.remove("active");
@@ -245,6 +268,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadMyOffers();
   });
 
-  // carregar por padrão
+  // eventos
+  window.addEventListener("offer:accepted", () => {
+    loadMyItems();
+    closeOffersModal();
+  });
+
+  window.addEventListener("offer:updated", (ev) => {
+    const itemId = ev.detail?.itemId;
+    if (itemId) loadOffersForItem(itemId);
+  });
+
+  // inicializar
   loadMyItems();
 });

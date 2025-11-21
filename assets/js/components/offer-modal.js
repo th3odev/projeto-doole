@@ -30,7 +30,22 @@ export function initOfferModal(
     lanceMin.textContent = `R$${String(maiorOfertaAtual).replace(".", ",")}`;
   }
 
-  function open() {
+  // ===============================
+  // BLOQUEAR MODAL PARA DONO DO ITEM
+  // ===============================
+  async function open() {
+    const user = (await supabase.auth.getUser())?.data?.user;
+
+    if (!user) {
+      alert("Você precisa estar logado.");
+      return;
+    }
+
+    if (user.id === donoItemId) {
+      alert("Você não pode fazer oferta no seu próprio item.");
+      return;
+    }
+
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   }
@@ -86,22 +101,25 @@ export function initOfferModal(
     if (tipoItem !== "doacao" && valorOferta < maiorOfertaAtual)
       return alert(`O lance mínimo é R$${maiorOfertaAtual}`);
 
-    const { error } = await supabase.from("offers").insert({
-      item_id: itemId,
-      usuario_id: user.id,
-      dono_item_id: donoItemId,
+    const result = await window.offersService.createOffer({
+      itemId,
+      compradorId: user.id,
+      vendedorId: donoItemId,
       valor: valorOferta,
-      retirada_valor: selectRet.value === "sim" ? valorRet : 0,
+      retiradaValor: valorRet,
+      cobraRetirada: selectRet.value === "sim",
     });
 
-    if (error) {
-      console.error(error);
+    if (!result?.success) {
+      console.error(result.error);
       return alert("Erro ao enviar oferta.");
     }
 
     alert("Oferta enviada com sucesso!");
     close();
-    window.location.reload();
+    setTimeout(() => {
+      window.location.replace(window.location.href);
+    }, 150);
   });
 
   return { open, close };

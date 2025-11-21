@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificações — Doole</title>
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/pages/notifications.css">
+</head>
+
+<body>
+  <header id="navbar"></header>
+
+  <main class="notifications-page app">
+    <div class="notifications-container">
+      <h1 class="notifications-title">Notificações<span class="span">.</span></h1>
+
+      <div id="notificationsList" class="notifications-list">
+        <p>Carregando notificações...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- chat -->
+  <div id="chatBtn" class="chat-btn hidden">
+    <img id="chatIcon" src="" alt="Chat">
+  </div>
+
+  <div id="chatModal" class="chat-modal hidden">
+    <div id="chatHeader" class="chat-header">
+      <h3>Negociações</h3>
+      <button id="chatClose" class="chat-close" type="button">×</button>
+    </div>
+
+    <div id="chatList" class="chat-list">
+      <p>Carregando...</p>
+    </div>
+
+    <div id="chatConversation" class="chat-conversation hidden">
+      <div id="messagesWrapper" class="messages-wrapper"></div>
+
+      <div class="chat-input-box">
+        <input id="chatMessageInput" type="text" placeholder="Digite uma mensagem..." />
+        <button id="chatSendBtn" type="button">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../assets/js/core/supabaseClient.js"></script>
+<script src="../assets/js/core/services/notificationsService.js"></script>
+<script src="../assets/js/components/chat/chat.js"></script>
+<script src="../assets/js/components/navbar.js"></script>
+<script src="../assets/js/core/notifications-realtime.js"></script>
+<script type="module" src="../assets/js/pages/notifications.js"></script>
+<script src="../assets/js/main.js"></script>
+
+</html>

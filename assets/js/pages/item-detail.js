@@ -25,7 +25,7 @@ const placeholder = "../assets/img/placeholder.png";
 // mantemos o maior lance e o dono do item
 let maiorOfertaAtual = 0;
 let donoItemId = null;
-let tipoItem = null; // << ESSENCIAL para detectar "doacao"
+let tipoItem = null;
 
 // Helpers
 function getItemId() {
@@ -64,10 +64,7 @@ async function loadItem() {
       return;
     }
 
-    // salva dono do item
     donoItemId = data.usuario_id;
-
-    // salva tipo (pra saber se é doação)
     tipoItem = data.tipo;
 
     safeText(elTitulo, data.titulo || "Sem título");
@@ -79,7 +76,6 @@ async function loadItem() {
     safeText(elLocal, data.localizacao || "-");
     safeText(elCat, data.categorias?.nome || "Categoria");
 
-    // GALLERY
     const imgs = Array.isArray(data.imagens)
       ? data.imagens.filter(Boolean)
       : [];
@@ -99,10 +95,9 @@ async function loadItem() {
 }
 
 // =======================================
-// GALLERY RENDER
+// GALLERY
 // =======================================
 function renderGallery(imgs = [], title = "") {
-  if (!elGaleria) return;
   elGaleria.innerHTML = "";
 
   imgs.forEach((src, idx) => {
@@ -132,14 +127,11 @@ function renderGallery(imgs = [], title = "") {
 }
 
 function setActiveThumb(selected) {
-  if (!elGaleria) return;
-
   elGaleria
     .querySelectorAll("img")
     .forEach((t) => t.classList.remove("item-detail__thumbnail--active"));
 
-  if (!selected) return;
-  selected.classList.add("item-detail__thumbnail--active");
+  if (selected) selected.classList.add("item-detail__thumbnail--active");
 }
 
 function setMainImage(src) {
@@ -190,11 +182,7 @@ async function loadRelated(categoriaId, itemId) {
     }
 
     data.forEach((it) => {
-      const imgSrc =
-        Array.isArray(it.imagens) && it.imagens[0]
-          ? it.imagens[0]
-          : placeholder;
-
+      const imgSrc = it.imagens?.[0] || placeholder;
       const precoTxt = it.tipo === "doacao" ? "Grátis" : formatPrice(it.preco);
 
       const card = document.createElement("article");
@@ -235,13 +223,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   const itemId = getItemId();
   const btnOferta = document.getElementById("btn-oferta");
 
-  // inicializa modal passando também o tipo
+  // inicializa o modal de enviar oferta
   const modalOferta = initOfferModal(
     supabase,
     itemId,
     maiorOfertaAtual,
     donoItemId,
-    tipoItem // << novo
+    tipoItem,
+    () => {
+      // 👉 NOVO: após enviar lance → vai para "Meus Lances"
+      window.location.href = "../pages/profile.html#offers";
+    }
   );
 
   btnOferta.addEventListener("click", () => {

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Doole — Venda, doe e dê um novo destino ao que você não usa mais</title>
+  <title>Doole - Venda, doe e dê um novo destino ao que você não usa mais</title>
   <meta name="description" content="Doole é um marketplace sustentável onde você vende, doa ou descarta itens de forma simples, rápida e consciente. Transforme objetos parados em dinheiro ou em impacto positivo." />
   <!-- <link rel="canonical" href="#" />  vou adicionar qnd fizer deploy -->
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
@@ -112,11 +112,40 @@
     <small>© Doole · Alguns Direitos Reservados.</small>
   </footer>
 
+  <!-- chat -->
+  <div id="chatBtn" class="chat-btn hidden">
+    <img id="chatIcon" src="" alt="Chat">
+  </div>
+
+  <div id="chatModal" class="chat-modal hidden">
+    <div id="chatHeader" class="chat-header">
+      <h3>Negociações</h3>
+      <button id="chatClose" class="chat-close" type="button">×</button>
+    </div>
+
+    <div id="chatList" class="chat-list">
+      <p>Carregando...</p>
+    </div>
+
+    <div id="chatConversation" class="chat-conversation hidden">
+      <div id="messagesWrapper" class="messages-wrapper"></div>
+
+      <div class="chat-input-box">
+        <input id="chatMessageInput" type="text" placeholder="Digite uma mensagem..." />
+        <button id="chatSendBtn" type="button">Enviar</button>
+      </div>
+    </div>
+  </div>
+
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="assets/js/core/supabaseClient.js"></script>
-<script src="../assets/js/components/navbar.js"></script>
+<script src="assets/js/core/services/notificationsService.js"></script>
 <script type="module" src="assets/js/main.js"></script>
+<script src="assets/js/components/chat/chat.js"></script>
+<script src="assets/js/core/notifications-realtime.js"></script>
+<script src="assets/js/components/navbar.js"></script>
 
 </html>

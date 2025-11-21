@@ -28,6 +28,7 @@ variables.css
 badges.css
 buttons.css
 cards.css
+chat.css
 forms.css
 modal.css
 upload.css
@@ -43,6 +44,7 @@ home.css
 item-detail.css
 items.css
 new-item.css
+notifications.css
 profile.css
 
 ./assets/css/utilities:
@@ -82,17 +84,36 @@ pages/
 
 ./assets/js/components:
 cards.js
+chat/
 navbar.js
+offer-modal.js
+offers-manage-modal.js
 upload.js
+
+./assets/js/components/chat:
+chat.js
+chat-button.js
+chat-events.js
+chat-modal.js
+chat-render.js
+chat-service.js
+chat-view/
+
+./assets/js/components/chat/chat-view:
+conversation-view.js
+list-view.js
 
 ./assets/js/core:
 auth.js
 authGuard.js
+notifications-realtime.js
 services/
 supabaseClient.js
 utils.js
 
 ./assets/js/core/services:
+notificationsService.js
+offersService.js
 
 ./assets/js/pages:
 auth-page.js
@@ -100,7 +121,7 @@ home.js
 item-detail.js
 items.js
 new-item.js
-offers.js
+notifications.js
 profile.js
 
 ./pages:
@@ -108,4 +129,5 @@ auth.html
 item-detail.html
 items.html
 new-item.html
+notifications.html
 profile.html

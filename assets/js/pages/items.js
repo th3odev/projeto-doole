@@ -31,8 +31,9 @@ async function carregarDados() {
     const { data: items, error } = await supabase
       .from("items")
       .select(
-        "id, titulo, descricao, tipo, preco, localizacao, imagens, criado_em, categoria_id"
+        "id, titulo, descricao, tipo, preco, localizacao, imagens, criado_em, categoria_id, status"
       )
+      .eq("status", "ativo")
       .order("criado_em", { ascending: false });
 
     if (error) {

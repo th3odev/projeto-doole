@@ -86,7 +86,7 @@
   border-color: transparent;
 }
 
-/* escondido */
+/* hidden */
 .hidden {
   display: none !important;
 }
@@ -164,4 +164,52 @@
 
 .btn-reject:hover {
   background: #bbb;
+}
+
+/* alerta de lance feito */
+.offer-alert-accepted {
+  background: #fef3c7;
+  color: #92400e;
+  border-left: 4px solid #f59e0b;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-weight: 500;
+  font-size: 0.92rem;
+}
+
+/* ===============================
+   STATUS VISUAL
+=============================== */
+
+.offer-card__status {
+  font-weight: 700;
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+
+/* aceito */
+.offer-status-aceita {
+  color: #065f46;
+}
+
+/* recusado */
+.offer-status-recusada {
+  color: #991b1b;
+}
+
+/* pendente */
+.offer-status-pendente {
+  color: #6b7280;
+}
+
+/* card aceito */
+.offer-card--accepted {
+  border-left: 4px solid #059669;
+  background: #ecfdf5;
+}
+
+/* card recusado */
+.offer-card--rejected {
+  opacity: 0.6;
 }
