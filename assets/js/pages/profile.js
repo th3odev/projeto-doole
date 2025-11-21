@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // ELEMENTOS
+  // elementos
   const nameEl = document.getElementById("profileName");
   const emailEl = document.getElementById("profileEmail");
   const itemsList = document.getElementById("itemsList");
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tabItems = document.getElementById("tabItems");
   const tabOffers = document.getElementById("tabOffers");
 
-  // MODAL DE OFERTAS
+  // modal de ofertas
   const modal = document.getElementById("offersModal");
   const modalOverlay = document.getElementById("offersModalOverlay");
   const modalClose = document.getElementById("offersModalClose");
@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   }
+
   function closeOffersModal() {
     modal.classList.add("hidden");
     document.body.style.overflow = "";
@@ -38,11 +39,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   modalOverlay.addEventListener("click", closeOffersModal);
   modalClose.addEventListener("click", closeOffersModal);
 
-  // MÓDULO DE LANCES
+  // módulo de lances
   const manageOffers = initOffersManageModal(supabase);
 
   // =============================================================
-  // CARREGAR LANCES DO ITEM
+  // carregar lances do item
   // =============================================================
   async function loadOffersForItem(itemId) {
     modalList.innerHTML = "<p>Carregando...</p>";
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =============================================================
-  // DADOS DO PERFIL
+  // dados do usuário
   // =============================================================
   emailEl.textContent = user.email;
 
@@ -91,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   nameEl.textContent = displayName;
 
   // =============================================================
-  // MEUS ITENS (VENDEDOR)
+  // MEUS ITENS
   // =============================================================
   async function loadMyItems() {
     const { data } = await supabase
@@ -110,41 +111,39 @@ document.addEventListener("DOMContentLoaded", async () => {
       const img = item.imagens?.[0] || "../assets/img/placeholder.webp";
 
       itemsList.innerHTML += `
-  <div class="profile-item">
-    
-    <div class="profile-item__image">
-      <a href="./item-detail.html?id=${item.id}">
-        <img src="${img}">
-      </a>
-    </div>
+<div class="profile-item">
 
-    <!-- WRAPPER ESSENCIAL PARA O ELLIPSIS FUNCIONAR -->
-    <div class="profile-item__info">
-      
-      <div class="profile-item__content">
-        <a href="./item-detail.html?id=${item.id}">
-          <h3 class="profile-item__title">${item.titulo}</h3>
-        </a>
-
-        <p class="profile-item__desc">${item.descricao}</p>
-
-        <p class="profile-item__price">
-          R$${Number(item.preco || 0).toFixed(2)}
-        </p>
-      </div>
-
-      <div class="profile-item__actions">
-        <button class="btn-small-blue view-offers" data-id="${item.id}">
-          Ver Lances
-        </button>
-        <button class="btn-small-delete delete-item" data-id="${item.id}">
-          Excluir
-        </button>
-      </div>
-
-    </div>
-
+  <div class="profile-item__image">
+    <a href="./item-detail.html?id=${item.id}">
+      <img src="${img}">
+    </a>
   </div>
+
+  <div class="profile-item__info">
+    <a href="./item-detail.html?id=${item.id}">
+      <h3 class="profile-item__title">${item.titulo}</h3>
+    </a>
+
+    <p class="profile-item__desc">${item.descricao}</p>
+
+    <p class="profile-item__price">
+      R$${Number(item.preco || 0).toFixed(2)}
+    </p>
+  </div>
+
+  <div class="profile-item__actions">
+    <button class="profile-btn view-offers" data-id="${item.id}">
+      Ver Lances
+    </button>
+
+    <button class="profile-btn profile-btn--delete delete-item" data-id="${
+      item.id
+    }">
+      Excluir
+    </button>
+  </div>
+
+</div>
 `;
     });
 
@@ -188,36 +187,39 @@ document.addEventListener("DOMContentLoaded", async () => {
       const img = of.items?.imagens?.[0] || "../assets/img/placeholder.webp";
 
       offersList.innerHTML += `
-        <div class="profile-item">
-          <div class="profile-item__image">
-            <a href="./item-detail.html?id=${of.items.id}">
-              <img src="${img}">
-            </a>
-          </div>
+<div class="profile-item">
 
-          <div class="profile-item__content">
-            <a href="./item-detail.html?id=${of.items.id}">
-              <h3 class="profile-item__title">${of.items.titulo}</h3>
-            </a>
+  <div class="profile-item__image">
+    <a href="./item-detail.html?id=${of.items.id}">
+      <img src="${img}">
+    </a>
+  </div>
 
-            <p class="profile-item__desc">
-              Seu lance: R$${Number(of.valor).toFixed(2)}
-            </p>
+  <div class="profile-item__info">
+    <a href="./item-detail.html?id=${of.items.id}">
+      <h3 class="profile-item__title">${of.items.titulo}</h3>
+    </a>
 
-            ${
-              of.status === "aceita"
-                ? `
-              <button class="btn-small-blue start-chat" data-item="${of.item_id}">
-                Iniciar Chat
-              </button>`
-                : ""
-            }
-          </div>
-        </div>
-      `;
+    <p class="profile-item__desc">Seu lance: R$${Number(of.valor).toFixed(
+      2
+    )}</p>
+  </div>
+
+  <div class="profile-item__actions">
+    ${
+      of.status === "aceita"
+        ? `<button class="profile-btn start-chat" data-item="${of.item_id}">
+             Iniciar Chat
+           </button>`
+        : ""
+    }
+  </div>
+
+</div>
+`;
     });
 
-    // Ativar botões de iniciar chat
+    // iniciar chat
     document.querySelectorAll(".start-chat").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const itemId = btn.dataset.item;
@@ -233,7 +235,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           return;
         }
 
-        // abrir modal do chat
         const modal = document.getElementById("chatModal");
         const list = document.getElementById("chatList");
         const convBox = document.getElementById("chatConversation");
@@ -255,20 +256,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   tabItems.addEventListener("click", () => {
     tabItems.classList.add("active");
     tabOffers.classList.remove("active");
+
     itemsList.classList.remove("d-none");
     offersList.classList.add("d-none");
+
     loadMyItems();
   });
 
   tabOffers.addEventListener("click", () => {
     tabOffers.classList.add("active");
     tabItems.classList.remove("active");
+
     itemsList.classList.add("d-none");
     offersList.classList.remove("d-none");
+
     loadMyOffers();
   });
 
-  // eventos
+  // eventos realtime
   window.addEventListener("offer:accepted", () => {
     loadMyItems();
     closeOffersModal();
@@ -279,6 +284,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (itemId) loadOffersForItem(itemId);
   });
 
-  // inicializar
+  // inicialização
   loadMyItems();
 });

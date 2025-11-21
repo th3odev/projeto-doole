@@ -44,7 +44,8 @@
   background: #003958;
 }
 
-.btn {
+.button.btn,
+a.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;

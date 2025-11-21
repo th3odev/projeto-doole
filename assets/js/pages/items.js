@@ -42,7 +42,25 @@ async function carregarDados() {
       return;
     }
 
-    allItems = items || [];
+    // -----------------------------
+    // 🔥 FILTRAR ITENS COM OFERTA ACEITA
+    // -----------------------------
+    const { data: ofertasAceitas, error: ofertasErr } = await supabase
+      .from("offers")
+      .select("item_id")
+      .eq("status", "aceita");
+
+    if (ofertasErr) {
+      console.warn("Erro ao buscar ofertas aceitas:", ofertasErr);
+    }
+
+    // lista dos IDs de itens já negociados
+    const itensComOfertaAceita = new Set(
+      (ofertasAceitas || []).map((o) => o.item_id)
+    );
+
+    // remove itens já aceitos
+    allItems = (items || []).filter((i) => !itensComOfertaAceita.has(i.id));
 
     // popula cidades únicas
     populateCidades(allItems);
@@ -142,7 +160,6 @@ function renderizarItens(items) {
 
   itemsContainer.appendChild(fragment);
 
-  // centralizar se só tiver 1 visível (mobile UX)
   const visibleCount =
     itemsContainer.querySelectorAll(".card:not(.d-none)").length;
   itemsContainer.classList.toggle("center-mobile", visibleCount === 1);
@@ -171,7 +188,6 @@ function aplicarFiltros() {
     });
   }
 
-  // ordenação
   const sortVal = sortSelect?.value || "recentes";
   items.sort((a, b) => {
     if (sortVal === "recentes") {
