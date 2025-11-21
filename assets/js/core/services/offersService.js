@@ -1,5 +1,5 @@
 // ===============================================
-// SERVICE DE LANCES — ATUALIZADO COM {item_title}
+// SERVICE DE LANCES — FINAL COM {item_title}
 // ===============================================
 (function () {
   const supabase = window.supabase;
@@ -14,7 +14,7 @@
   // ============================================
   async function acceptOffer({ offerId, itemId, compradorId, vendedorId }) {
     try {
-      // 1) Atualiza a oferta como aceita
+      // Atualiza oferta
       const { error: updateError } = await supabase
         .from("offers")
         .update({ status: "aceita" })
@@ -22,7 +22,7 @@
 
       if (updateError) throw updateError;
 
-      // 2) Verifica se já existe conversa
+      // Verifica conversa existente
       const { data: existingConversation } = await supabase
         .from("conversations")
         .select("id")
@@ -31,9 +31,9 @@
 
       let conversationId = existingConversation?.id;
 
-      // 3) Se não existir, cria
+      // Cria conversa se não existir
       if (!conversationId) {
-        const { data: newConv, error: convErr } = await supabase
+        const { data: newConv, error } = await supabase
           .from("conversations")
           .insert([
             {
@@ -46,11 +46,11 @@
           .select()
           .single();
 
-        if (convErr) throw convErr;
+        if (error) throw error;
         conversationId = newConv.id;
       }
 
-      // 4) Notificação ao comprador (agora com nome do item)
+      // Notificação → comprador
       await supabase.from("notifications").insert([
         {
           user_id: compradorId,
@@ -121,7 +121,7 @@
 
       if (error) throw error;
 
-      // Notificação ao vendedor (agora com nome do item)
+      // Notificação → vendedor
       await supabase.from("notifications").insert([
         {
           user_id: vendedorId,
@@ -142,7 +142,6 @@
     }
   }
 
-  // EXPORT
   window.offersService = {
     acceptOffer,
     rejectOffer,

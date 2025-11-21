@@ -1,5 +1,5 @@
 // =============================================================
-// NOTIFICATIONSSERVICE.JS — versão limpa, sem chat_message
+// NOTIFICATIONSSERVICE.JS — FINAL COM {item_title}
 // =============================================================
 (function () {
   const supabase = window.supabase;
@@ -22,39 +22,36 @@
     offerId,
   }) {
     try {
-      // 🔥 Chat NUNCA gera notificação no banco
+      // Chat não gera notificação
       if (type === "chat_message") {
-        console.log("💬 Ignorando notificação de chat (não será salva).");
+        console.log("💬 Ignorando notificação de chat (não salva no banco).");
         return { success: true, ignored: true };
       }
 
+      // Buscar título do item
       let itemTitle = null;
 
-      // Buscar título do item automaticamente
       if (itemId) {
-        const { data: item, error: itemError } = await supabase
+        const { data: item, error } = await supabase
           .from("items")
           .select("titulo")
           .eq("id", itemId)
           .single();
 
-        if (!itemError && item) {
-          itemTitle = item.titulo;
-        }
+        if (!error && item) itemTitle = item.titulo;
       }
 
-      // preencher placeholders
-
+      // Aplicar placeholder
       const finalTitle = title?.replaceAll(
         "{item_title}",
         itemTitle || "seu item"
       );
 
       const finalMessage = message
-        ?.replace(/\(id:[^)]+\)/g, "") // remove ids internos
+        ?.replace(/\(id:[^)]+\)/g, "") // limpar IDs
         ?.replaceAll("{item_title}", itemTitle || "seu item");
 
-      // salvar notificação (exceto chat)
+      // Salvar notificação
       const { error } = await supabase.from("notifications").insert([
         {
           user_id: userId,
@@ -138,7 +135,7 @@
   }
 
   // ============================================================
-  // 🔴 REALTIME — apenas notificações reais
+  // 🔴 REALTIME — Apenas notificações reais (exceto chat)
   // ============================================================
   function subscribeToUserNotifications(userId, onNewNotification) {
     if (!userId) return;
@@ -154,27 +151,18 @@
           filter: `user_id=eq.${userId}`,
         },
         (payload) => {
-          // reforço extra: ignorar chat
-          if (payload.new?.type === "chat_message") {
-            console.log("💬 Ignorando realtime de chat.");
-            return;
-          }
-
+          if (payload.new?.type === "chat_message") return;
           if (typeof onNewNotification === "function") {
             onNewNotification(payload.new);
           }
         }
       )
-      .subscribe((status) => {
-        console.log("🔔 Canal de notificações:", status);
-      });
+      .subscribe();
 
     return channel;
   }
 
-  // ============================================================
   // EXPORT GLOBAL
-  // ============================================================
   window.notificationsService = {
     createNotification,
     getUnreadCountForUser,
