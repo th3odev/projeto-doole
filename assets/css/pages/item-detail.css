@@ -36,7 +36,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--espaco-6);
-  align-items: start;
+  align-items: flex-start;
 }
 
 /* galeria */
@@ -59,7 +59,6 @@
   margin-top: var(--espaco-3);
   padding-bottom: 8px;
   overflow-x: auto;
-  /* harmless fallback */
 }
 
 .item-detail__thumbnail-list {
@@ -80,8 +79,11 @@
   flex: 0 0 auto;
 }
 
+.item-detail__thumbnail--active {
+  border-color: var(--cor-principal-1);
+}
 
-/* scrollbar se tiver mais fotos xD */
+/* scrollbar */
 .item-detail__thumbnails::-webkit-scrollbar {
   height: 8px;
 }
@@ -101,6 +103,7 @@
   color: inherit;
 }
 
+/* titulo */
 .item-detail__title {
   font-family: var(--fonte-titulo);
   font-size: 36px;
@@ -115,6 +118,7 @@
   margin-left: 4px;
 }
 
+/* preco */
 .item-detail__price {
   margin: 10px 0 16px;
   font-size: 24px;
@@ -122,6 +126,7 @@
   color: var(--cor-principal-1);
 }
 
+/* meta infos */
 .item-detail__meta {
   display: flex;
   gap: 18px;
@@ -132,7 +137,6 @@
   align-items: center;
 }
 
-/* scoped rule p evitar util .text-primary impactar aqui */
 .item-detail__meta-item,
 .item-detail__meta-item span {
   color: var(--cinza-500);
@@ -148,7 +152,6 @@
   width: 16px;
   height: 16px;
   opacity: .75;
-  display: inline-block;
 }
 
 .item-detail__meta::after {
@@ -173,13 +176,19 @@
   color: var(--cor-texto);
 }
 
+/* descricao sem scroll e sem altura fixa */
 .item-detail__description-text {
   font-size: 15px;
   color: var(--cinza-600);
   line-height: 1.5;
   max-width: 560px;
+  word-break: break-word;
   padding-bottom: 22px;
   position: relative;
+  overflow: visible;
+  /* importante */
+  max-height: none;
+  /* importante */
 }
 
 .item-detail__description-text::after {
@@ -191,30 +200,6 @@
   height: 1px;
   background: var(--cinza-300);
 }
-
-/* evita descrição gigante quebrar o layout */
-.item-detail__description-text {
-  max-height: 200px;
-  overflow-y: auto;
-  word-break: break-word;
-  padding-right: 6px;
-
-}
-
-/* deixa o scroll mais bonito */
-.item-detail__description-text::-webkit-scrollbar {
-  width: 6px;
-}
-
-.item-detail__description-text::-webkit-scrollbar-thumb {
-  background: var(--cinza-300);
-  border-radius: 50px;
-}
-
-.item-detail__description-text::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 
 /* card de oferta */
 .item-detail__offer {
@@ -234,6 +219,14 @@
   margin-bottom: 12px;
 }
 
+/* botão dentro do card */
+.item-detail__offer button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
 /* relacionados */
 .item-detail__related {
   margin-top: var(--espacamento-secao);
@@ -245,14 +238,13 @@
   color: var(--cor-texto);
 }
 
-/* grid fixo  */
+/* grid */
 .item-detail__related-grid {
   display: grid;
   gap: var(--gap-elementos);
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   justify-items: center;
 }
-
 
 /* card menor */
 .card--related--small {
@@ -273,7 +265,6 @@
   height: 150px;
   object-fit: cover;
   border: none;
-  box-shadow: none;
 }
 
 .card--related--small .card--item__content {
@@ -301,25 +292,7 @@
   font-size: 0.95rem;
 }
 
-/* utility e afins */
-.item-detail__main-image,
-.item-detail__thumbnail,
-.card--related--small .card--item__image {
-  max-width: 100%;
-}
-
-.span {
-  color: var(--cor-principal-1);
-}
-
-/* reponsivo */
-@media (max-width: 1200px) {
-  .item-detail {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-}
-
+/* responsive */
 @media (max-width: 992px) {
   .item-detail__content {
     grid-template-columns: 1fr;

@@ -1,29 +1,50 @@
-// assets/js/components/chat/chat-view/list-view.js
+// ===============================================================
+// LIST-VIEW.JS — agora carrega mensagens não lidas do banco
+// ===============================================================
 window.initListView = function (service, convView) {
   const list = document.getElementById("chatList");
 
   let cachedConversations = [];
   let currentUserId = null;
 
-  // -------------------------------------------
-  // Re-renderizar uma única conversa na lista
-  // -------------------------------------------
-  function updateConversationItem(conversationId) {
-    const item = document.querySelector(
-      `.chat-item[data-id="${conversationId}"]`
-    );
-    if (!item) return;
+  const unreadSet = new Set();
 
-    item.classList.add("chat-item--unread");
+  // aplicar visual
+  function applyUnreadStyles() {
+    document.querySelectorAll(".chat-item").forEach((el) => {
+      const id = el.dataset.id;
+      if (unreadSet.has(id)) {
+        el.classList.add("chat-item--unread");
+      } else {
+        el.classList.remove("chat-item--unread");
+      }
+    });
   }
 
-  // -------------------------------------------
-  // Carregar lista completa
-  // -------------------------------------------
+  function markUnread(convId) {
+    unreadSet.add(String(convId));
+    applyUnreadStyles();
+    window.updateChatButtonBadge?.(unreadSet.size);
+  }
+
+  function clearUnread(convId) {
+    unreadSet.delete(String(convId));
+    applyUnreadStyles();
+    window.updateChatButtonBadge?.(unreadSet.size);
+  }
+
   async function load(userId) {
     currentUserId = userId;
+
+    // 🔥 pegar conversas
     cachedConversations = await service.getConversations(userId);
 
+    // 🔥 pegar mensagens não lidas
+    const unreadMsgs = await service.getUnreadByConversation(userId);
+    unreadSet.clear();
+    unreadMsgs.forEach((m) => unreadSet.add(String(m.conversation_id)));
+
+    // render
     if (!cachedConversations.length) {
       list.innerHTML = "<p>Nenhuma negociação.</p>";
       return;
@@ -32,58 +53,37 @@ window.initListView = function (service, convView) {
     list.innerHTML = cachedConversations
       .map(
         (c) => `
-      <div class="chat-item" data-id="${c.id}">
-        <img src="${c.items?.imagens?.[0] || "../assets/img/placeholder.webp"}">
-        <div>
-          <h4 class="chat-item__title">${c.items?.titulo}</h4>
-          <span class="chat-item__meta">Negociando…</span>
-        </div>
-      </div>`
+        <div class="chat-item" data-id="${c.id}">
+          <img src="${
+            c.items?.imagens?.[0] || "../assets/img/placeholder.webp"
+          }">
+          <div>
+            <h4 class="chat-item__title">${c.items?.titulo}</h4>
+            <span class="chat-item__meta">Negociando…</span>
+          </div>
+        </div>`
       )
       .join("");
 
-    // clique em cada conversa
     document.querySelectorAll(".chat-item").forEach((el) => {
-      el.addEventListener("click", () => {
+      el.onclick = () => {
         const id = el.dataset.id;
         const conv = cachedConversations.find((c) => c.id === id);
         if (!conv) return;
-
-        el.classList.remove("chat-item--unread");
-
-        const btn = document.getElementById("chatBtn");
-        btn?.classList.remove("chat-has-new");
-
+        clearUnread(id);
         convView.open(conv, userId);
-      });
+      };
     });
-  }
 
-  // -------------------------------------------
-  // Atualizar a lista SE a lista estiver ativa
-  // -------------------------------------------
-  async function liveRefresh(conversationId) {
-    const modal = document.getElementById("chatModal");
-
-    // só atualiza se a lista estiver sendo exibida
-    if (!modal.classList.contains("open")) return;
-
-    const wasOpen = convView.getActiveConversationId();
-
-    await load(currentUserId);
-
-    // se uma conversa estava aberta, reabre ela
-    if (wasOpen) {
-      const conv = cachedConversations.find((c) => c.id === wasOpen);
-      if (conv) convView.open(conv, currentUserId);
-    }
-
-    updateConversationItem(conversationId);
+    applyUnreadStyles();
   }
 
   return {
     load,
-    updateConversationItem,
-    liveRefresh,
+    updateConversationItem: markUnread,
+    clearConversationItem: clearUnread,
+    getTotalUnread() {
+      return unreadSet.size;
+    },
   };
 };

@@ -1,4 +1,6 @@
-// assets/js/components/chat/chat-service.js
+// =====================================================
+// CHAT-SERVICE.JS — agora com suporte a mensagens não lidas
+// =====================================================
 window.initChatService = function (supabase) {
   return {
     // Conversas onde o usuário é comprador OU vendedor
@@ -30,7 +32,7 @@ window.initChatService = function (supabase) {
       return data || [];
     },
 
-    // Mensagens de uma conversa
+    // Mensagens da conversa
     async getMessages(conversationId) {
       const { data, error } = await supabase
         .from("messages")
@@ -46,26 +48,59 @@ window.initChatService = function (supabase) {
       return data || [];
     },
 
-    // Enviar mensagem
-    async sendMessage(conversationId, senderId, conteudo) {
+    // 🔥 BUSCAR MENSAGENS NÃO LIDAS POR CONVERSA
+    async getUnreadByConversation(userId) {
       const { data, error } = await supabase
         .from("messages")
-        .insert([
-          {
-            conversation_id: conversationId,
-            sender_id: senderId,
-            conteudo,
-          },
-        ])
-        .select()
-        .single();
+        .select("conversation_id")
+        .eq("lida", false)
+        .neq("sender_id", userId);
 
       if (error) {
-        console.error("❌ Erro sendMessage:", error);
-        return null;
+        console.error("❌ Erro getUnreadByConversation:", error);
+        return [];
       }
 
-      return data;
+      return data || []; // lista com conversation_id
+    },
+
+    // Enviar mensagem
+    async sendMessage(conversationId, senderId, conteudo) {
+      try {
+        const { data, error } = await supabase
+          .from("messages")
+          .insert([
+            {
+              conversation_id: conversationId,
+              sender_id: senderId,
+              conteudo,
+              lida: false,
+            },
+          ])
+          .select()
+          .single();
+
+        if (error) throw error;
+        return data;
+      } catch (err) {
+        console.error("❌ Erro sendMessage:", err);
+        return null;
+      }
+    },
+    async getUnreadByConversation(userId) {
+      const { data, error } = await supabase
+        .from("messages")
+        .select("conversation_id")
+        .eq("lida", false)
+        .not("sender_id", "eq", userId)
+        .not("sender_id", "is", null); // evita mensagens sem sender_id
+
+      if (error) {
+        console.error("❌ Erro getUnreadByConversation:", error);
+        return [];
+      }
+
+      return data || [];
     },
   };
 };

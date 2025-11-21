@@ -63,7 +63,8 @@ const navbarLogged = `
         <button 
           class="btn btn--profile dropdown-toggle" 
           type="button" 
-          data-bs-toggle="dropdown">
+          data-bs-toggle="dropdown" 
+          >
 
         <div class="navbar-profile-wrapper">
           <img src="../assets/img/icons/user.svg" class="btn--profile__icon" />

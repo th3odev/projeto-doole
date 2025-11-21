@@ -1,4 +1,6 @@
-// assets/js/components/chat/chat-events.js
+// =====================================================
+// CHAT-EVENTS — realtime estilo WhatsApp
+// =====================================================
 window.initChatEvents = function (supabase, convView, listView) {
   let currentUserId = null;
 
@@ -7,46 +9,47 @@ window.initChatEvents = function (supabase, convView, listView) {
     currentUserId = res.data?.user?.id || null;
   });
 
-  // canal realtime
   const channel = supabase.channel("chat-realtime");
 
-  // ================================
-  // 📩 NOVA MENSAGEM (REALTIME)
-  // ================================
   channel.on(
     "postgres_changes",
     { event: "INSERT", schema: "public", table: "messages" },
-    async (payload) => {
+    (payload) => {
       const msg = payload.new;
       if (!msg || !currentUserId) return;
 
-      const chatBtn = document.getElementById("chatBtn");
-      const active = convView.getActiveConversationId();
-
-      // mensagem minha → ignora
+      // mensagens minhas → ignora
       if (msg.sender_id === currentUserId) return;
 
-      // conversa aberta → insere direto
-      if (active && msg.conversation_id === active) {
+      const convId = msg.conversation_id;
+      const activeId = convView.getActiveConversationId();
+
+      // --------------------------------------------------
+      // conversa aberta → só mostra a msg e limpa unread
+      // --------------------------------------------------
+      if (activeId && activeId === convId) {
         convView.handleIncomingMessage(msg);
-        chatBtn?.classList.remove("chat-has-new");
+        listView.clearConversationItem?.(convId);
+
+        // atualiza badge com total atual
+        const total = listView.getTotalUnread?.() ?? 0;
+        window.updateChatButtonBadge?.(total);
         return;
       }
 
-      // conversa fechada → badge
-      chatBtn?.classList.add("chat-has-new");
+      // --------------------------------------------------
+      // conversa fechada → marca unread
+      // --------------------------------------------------
+      listView.updateConversationItem?.(convId);
 
-      // marcar conversa na lista como não lida
-      listView?.updateConversationItem?.(msg.conversation_id);
+      const total = listView.getTotalUnread?.() ?? 0;
+      window.updateChatButtonBadge?.(total);
     }
   );
 
-  // ================================
-  // 🔌 SUBSCRIBE
-  // ================================
   channel.subscribe((status) => {
     if (status === "SUBSCRIBED") {
-      console.log("🔔 Realtime conectado (somente mensagens).");
+      console.log("🔔 Realtime conectado (chat).");
     }
   });
 };

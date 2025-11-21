@@ -1,5 +1,5 @@
 .hero {
-  background-color: var(--cor-fundo);
+  background: linear-gradient(to bottom, #F5F5F4, #DDD8D5);
   padding: var(--espacamento-secao) var(--margem-lateral);
   border-bottom: 1px solid var(--cinza-300);
 }
@@ -116,7 +116,7 @@
 
 /* cta */
 .cta {
-  background-color: var(--cor-texto);
+  background: linear-gradient(to bottom, #141414, #000000);
   color: var(--cor-branca);
   padding: var(--espacamento-secao) var(--margem-lateral);
 }

@@ -7,6 +7,7 @@ window.initChatRender = function (service) {
     return { loadConversations: () => {} };
   }
 
+  // carregar conversas
   async function loadConversations() {
     const user = await window.supabase.auth.getUser();
     const userId = user?.data?.user?.id;
@@ -35,5 +36,25 @@ window.initChatRender = function (service) {
       .join("");
   }
 
-  return { loadConversations };
+  // marcar conversa como contendo nova mensagem
+  function updateConversationItem(convId) {
+    const item = list.querySelector(`.chat-item[data-id="${convId}"]`);
+    if (!item) return;
+
+    item.classList.add("chat-item--new");
+  }
+
+  // limpar indicador quando abrir conversa
+  function clearConversationItem(convId) {
+    const item = list.querySelector(`.chat-item[data-id="${convId}"]`);
+    if (!item) return;
+
+    item.classList.remove("chat-item--new");
+  }
+
+  return {
+    loadConversations,
+    updateConversationItem,
+    clearConversationItem,
+  };
 };

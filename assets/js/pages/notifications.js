@@ -92,13 +92,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           </a>`;
       }
 
-      // → Mensagem no chat
-      if (n.type === "chat_message") {
-        actionBtn = `
-          <a href="../pages/profile.html#chat" class="notif-btn">
-            Abrir chat
-          </a>`;
-      }
+      // // → Mensagem no chat
+      // if (n.type === "chat_message") {
+      //   actionBtn = `
+      //     <a href="../pages/profile.html#chat" class="notif-btn">
+      //       Abrir chat
+      //     </a>`;
+      // }
 
       // =====================================================
       // TEMPLATE DO CARD

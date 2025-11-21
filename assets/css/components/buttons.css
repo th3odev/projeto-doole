@@ -1,18 +1,42 @@
-/* botão primário */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fonte-texto);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: background-color .2s ease, opacity .2s ease;
+
+}
+
 .btn--primary {
   background-color: var(--cor-principal-1);
   color: var(--cor-branca);
+  border: none !important;
 }
 
+/* hover */
 .btn--primary:hover {
   background-color: var(--cor-principal-hover);
   color: var(--cor-branca);
 }
 
-/* botões perfil */
+/* override do Bootstrap que quebrava largura */
+button.btn--primary,
+a.btn--primary {
+  width: auto;
+}
+
 .btn-small-blue {
   background: var(--cor-azul);
-  /* azul escuro */
   color: #fff;
   padding: 7px 14px;
   border-radius: 6px;
@@ -29,7 +53,6 @@
 
 .btn-small-delete {
   background: var(--cor-azul);
-  /* laranja */
   color: #fff;
   padding: 7px 14px;
   border-radius: 6px;
@@ -44,39 +67,7 @@
   background: #003958;
 }
 
-.button.btn,
-a.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 
-  font-family: var(--fonte-texto);
-  font-weight: 700;
-  font-size: 1rem;
-
-  padding: 10px 20px;
-  border-radius: 4px;
-
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-
-  transition: background-color .2s ease;
-}
-
-/* responsivo */
-@media (max-width: 768px) {
-  .btn--primary {
-    padding: 10px 20px;
-    font-size: 0.85rem;
-  }
-}
-
-/* botão azul/secundário (novo item) */
 .btn--blue {
   background-color: var(--cor-azul);
   color: var(--cor-branca);
@@ -87,7 +78,7 @@ a.btn {
   color: var(--cor-branca);
 }
 
-/* botão do perfil */
+/* botão do user */
 
 .btn--profile {
   width: 42px;
@@ -100,16 +91,30 @@ a.btn {
   align-items: center;
 }
 
-/* ícone */
 .btn--profile__icon {
   width: 22px;
   height: 22px;
   filter: brightness(0) invert(1);
 }
 
+/* hover */
 .btn--profile:hover {
   background-color: var(--cor-principal-hover) !important;
 }
+
+/* remove estado feio do bootstrap */
+.btn--profile:focus,
+.btn--profile:active,
+.btn--profile.show,
+.show>.btn--profile.dropdown-toggle,
+.btn--profile:not(:disabled):active {
+  background-color: var(--cor-principal-1) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* chat button */
 
 .btn-start-chat {
   background: var(--cor-principal-1);
@@ -128,23 +133,14 @@ a.btn {
   background: var(--cor-principal-hover);
 }
 
+/* responsivo */
 
-/* remove estados bregas feios chatos do bootstrap eww */
-.btn--profile:focus,
-.btn--profile:active,
-.btn--profile.show,
-.show>.btn--profile.dropdown-toggle,
-.btn--profile:not(:disabled):active {
-  background-color: var(--cor-principal-1) !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-
-
-/* reponsivo */
 @media (max-width: 768px) {
+  .btn--primary {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
   .btn--profile {
     width: 36px;
     height: 36px;

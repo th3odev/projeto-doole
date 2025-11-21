@@ -1,5 +1,5 @@
 // main.js — versão SEM MODULES
-// Torna a função renderNavbar global
+// inicializa navbar global
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.renderNavbar) {

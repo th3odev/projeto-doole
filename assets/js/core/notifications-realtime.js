@@ -1,4 +1,6 @@
-// assets/js/core/notifications-realtime.js
+// =========================================================
+// NOTIFICATIONS-REALTIME.JS — versão limpa sem chat notif
+// =========================================================
 (function () {
   async function initNotificationsRealtime() {
     const supabase = window.supabase;
@@ -9,24 +11,30 @@
     const user = (await supabase.auth.getUser())?.data?.user;
     if (!user) return;
 
-    // Assina realtime de notificações
+    // Realtime SOMENTE para notificações reais
     notificationsService.subscribeToUserNotifications(
       user.id,
-      async (novaNotif) => {
-        console.log("🔔 Nova notificação realtime:", novaNotif);
-
-        // Atualiza badge
-        if (window.updateNotificationsBadge) {
-          window.updateNotificationsBadge();
+      async (notif) => {
+        // ignorar mensagens de chat completamente
+        if (notif.type === "chat_message") {
+          console.log("💬 Mensagem no chat — ignorando notificação global.");
+          return;
         }
 
-        // Mostra toast
-        showNotificationToast(novaNotif);
+        console.log("🔔 Nova notificação realtime:", notif);
+
+        // Atualiza badge no menu
+        window.updateNotificationsBadge?.();
+
+        // Toast apenas para notificações reais
+        showNotificationToast(notif);
       }
     );
   }
 
-  // Toast simples no canto inferior direito
+  // -------------------------------------------------------
+  // Toast simples (só para lances/aceites)
+  // -------------------------------------------------------
   function showNotificationToast(notif) {
     if (!notif) return;
 
@@ -50,15 +58,15 @@
 
     container.appendChild(toast);
 
-    // Animação de saída
+    // Animação → saída suave
     setTimeout(() => {
       toast.classList.add("hide");
-      setTimeout(() => {
-        toast.remove();
-      }, 300);
+      setTimeout(() => toast.remove(), 300);
     }, 3500);
   }
 
-  // Inicia quando DOM estiver pronto
+  // -------------------------------------------------------
+  // inicialização
+  // -------------------------------------------------------
   document.addEventListener("DOMContentLoaded", initNotificationsRealtime);
 })();

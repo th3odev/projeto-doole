@@ -18,9 +18,7 @@ window.initChatModal = function () {
 
   function close() {
     modal.classList.remove("open");
-    setTimeout(() => {
-      modal.classList.add("hidden");
-    }, 150);
+    setTimeout(() => modal.classList.add("hidden"), 150);
   }
 
   function isOpen() {

@@ -36,3 +36,22 @@ img {
   height: auto;
   display: block;
 }
+
+/* bootstrap */
+.btn--primary:focus,
+.btn--primary:active,
+.btn--primary:focus-visible,
+.btn--primary:not(:disabled):active {
+  background-color: var(--cor-principal-1) !important;
+  color: var(--cor-branca) !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+.btn:focus,
+.btn:active,
+.btn:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}

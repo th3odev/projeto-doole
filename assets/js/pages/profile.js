@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tabItems = document.getElementById("tabItems");
   const tabOffers = document.getElementById("tabOffers");
 
-  // modal de ofertas
+  // modal de ofertas (lances recebidos)
   const modal = document.getElementById("offersModal");
   const modalOverlay = document.getElementById("offersModalOverlay");
   const modalClose = document.getElementById("offersModalClose");
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   nameEl.textContent = displayName;
 
   // =============================================================
-  // MEUS ITENS
+  // meus itens
   // =============================================================
   async function loadMyItems() {
     const { data } = await supabase
@@ -133,13 +133,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   <div class="profile-item__actions">
     <button class="profile-btn view-offers" data-id="${item.id}">
-      Ver Lances
+      ver lances
     </button>
 
     <button class="profile-btn profile-btn--delete delete-item" data-id="${
       item.id
     }">
-      Excluir
+      excluir
     </button>
   </div>
 
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.reloadProfileItems = loadMyItems;
 
   // =============================================================
-  // MEUS LANCES (COMPRADOR)
+  // meus lances (comprador)
   // =============================================================
   async function loadMyOffers() {
     const { data } = await supabase
@@ -186,6 +186,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     data.forEach((of) => {
       const img = of.items?.imagens?.[0] || "../assets/img/placeholder.webp";
 
+      const status = of.status || "pendente";
+
+      let actionsHtml = "";
+      let statusLabel = "";
+
+      if (status === "aceita") {
+        actionsHtml = `
+<button class="profile-btn start-chat" data-item="${of.item_id}">
+  iniciar chat
+</button>`;
+        statusLabel = "aceita";
+      } else if (status === "pendente") {
+        actionsHtml = `
+<button class="profile-btn profile-btn--delete cancel-offer" data-id="${of.id}">
+  cancelar
+</button>`;
+        statusLabel = "pendente";
+      } else if (status === "recusada") {
+        statusLabel = "recusada";
+      } else if (status === "cancelada") {
+        statusLabel = "cancelada";
+      }
+
       offersList.innerHTML += `
 <div class="profile-item">
 
@@ -200,18 +223,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       <h3 class="profile-item__title">${of.items.titulo}</h3>
     </a>
 
-    <p class="profile-item__desc">Seu lance: R$${Number(of.valor).toFixed(
-      2
-    )}</p>
+    <p class="profile-item__desc">
+      Seu lance: R$${Number(of.valor).toFixed(2)}
+    </p>
   </div>
 
   <div class="profile-item__actions">
     ${
-      of.status === "aceita"
-        ? `<button class="profile-btn start-chat" data-item="${of.item_id}">
-             Iniciar Chat
-           </button>`
-        : ""
+      actionsHtml ||
+      `<span class="profile-item__status profile-item__status--${status}">
+         ${statusLabel}
+       </span>`
     }
   </div>
 
@@ -219,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 `;
     });
 
-    // iniciar chat
+    // iniciar chat (lance aceito)
     document.querySelectorAll(".start-chat").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const itemId = btn.dataset.item;
@@ -248,10 +270,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.loadChatConversation(conv.id);
       });
     });
+
+    // cancelar lance (somente pendente)
+    document.querySelectorAll(".cancel-offer").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const offerId = btn.dataset.id;
+        const ok = confirm("Tem certeza que deseja cancelar este lance?");
+        if (!ok) return;
+
+        const { error } = await supabase
+          .from("offers")
+          .update({ status: "cancelada" })
+          .eq("id", offerId)
+          .eq("status", "pendente");
+
+        if (error) {
+          console.error(error);
+          alert("Não foi possível cancelar o lance.");
+          return;
+        }
+
+        loadMyOffers();
+      });
+    });
   }
 
   // =============================================================
-  // ABAS
+  // abas
   // =============================================================
   tabItems.addEventListener("click", () => {
     tabItems.classList.add("active");

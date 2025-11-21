@@ -2,6 +2,7 @@
 assets/
 estrutura.txt
 index.html
+node_modules/
 pages/
 README.md
 vercel.json
@@ -123,6 +124,8 @@ items.js
 new-item.js
 notifications.js
 profile.js
+
+./node_modules:
 
 ./pages:
 auth.html

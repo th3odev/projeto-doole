@@ -1,4 +1,6 @@
-// assets/js/components/chat/chat-view/conversation-view.js
+// ===========================================================
+// CONVERSATION-VIEW.JS — abertura e render das mensagens
+// ===========================================================
 window.initConversationView = function (service, supabase) {
   const listBox = document.getElementById("chatList");
   const conversationBox = document.getElementById("chatConversation");
@@ -6,6 +8,7 @@ window.initConversationView = function (service, supabase) {
   let activeConversationId = null;
   let activeUserId = null;
   let messages = [];
+
   let msgBox = null;
   let input = null;
   let sendBtn = null;
@@ -13,7 +16,9 @@ window.initConversationView = function (service, supabase) {
   let typingTimer = null;
   let canSendTyping = true;
 
-  // ================================
+  // ---------------------------------------------------------
+  // renderizar mensagens
+  // ---------------------------------------------------------
   function renderMessages() {
     if (!msgBox) return;
 
@@ -25,17 +30,20 @@ window.initConversationView = function (service, supabase) {
         });
 
         return `
-        <div class="msg ${m.sender_id === activeUserId ? "me" : "them"}">
-          ${m.conteudo}
-          <small class="msg-time">${hora}</small>
-        </div>`;
+          <div class="msg ${m.sender_id === activeUserId ? "me" : "them"}">
+            ${m.conteudo}
+            <small class="msg-time">${hora}</small>
+          </div>
+        `;
       })
       .join("");
 
     msgBox.scrollTop = msgBox.scrollHeight;
   }
 
-  // ================================
+  // ---------------------------------------------------------
+  // indicador "digitando..."
+  // ---------------------------------------------------------
   function showTypingIndicator() {
     if (!msgBox) return;
 
@@ -48,15 +56,17 @@ window.initConversationView = function (service, supabase) {
       <span class="dot"></span>
       <span class="dot"></span>
     `;
-
     msgBox.appendChild(el);
+
     msgBox.scrollTop = msgBox.scrollHeight;
 
     clearTimeout(typingTimer);
     typingTimer = setTimeout(() => el.remove(), 1800);
   }
 
-  // ================================
+  // ---------------------------------------------------------
+  // enviar evento de digitação
+  // ---------------------------------------------------------
   function sendTyping() {
     if (!canSendTyping) return;
     canSendTyping = false;
@@ -69,7 +79,9 @@ window.initConversationView = function (service, supabase) {
     setTimeout(() => (canSendTyping = true), 1200);
   }
 
-  // ================================
+  // ---------------------------------------------------------
+  // abrir conversa
+  // ---------------------------------------------------------
   async function open(conversation, currentUserId) {
     activeConversationId = conversation.id;
     activeUserId = currentUserId;
@@ -77,18 +89,34 @@ window.initConversationView = function (service, supabase) {
     listBox.classList.add("hidden");
     conversationBox.classList.remove("hidden");
 
+    const finalizada = conversation.finalizada === true;
+
     conversationBox.innerHTML = `
       <div id="chatHeader" class="chat-header">
         <button id="backToList" class="chat-back">←</button>
-        <h3>${conversation.items?.titulo || "Negociação"}</h3>
+
+        <h3>
+          ${conversation.items?.titulo || "Negociação"}
+          ${
+            finalizada ? `<span class="chat-ended-tag">Finalizada ✓</span>` : ""
+          }
+        </h3>
+
         <button id="chatClose" class="chat-close">×</button>
       </div>
 
       <div id="messagesWrapper" class="messages-wrapper"></div>
 
-      <div class="chat-input-box">
-        <input id="chatMessageInput" type="text" placeholder="Digite..." />
-        <button id="chatSendBtn">Enviar</button>
+      <div class="chat-input-box ${finalizada ? "disabled" : ""}">
+        <input 
+          id="chatMessageInput"
+          type="text"
+          placeholder="${
+            finalizada ? "Negociação finalizada" : "Digite uma mensagem..."
+          }"
+          ${finalizada ? "disabled" : ""}
+        />
+        <button id="chatSendBtn" ${finalizada ? "disabled" : ""}>Enviar</button>
       </div>
     `;
 
@@ -96,24 +124,34 @@ window.initConversationView = function (service, supabase) {
     input = document.getElementById("chatMessageInput");
     sendBtn = document.getElementById("chatSendBtn");
 
-    // voltar
+    // voltar para lista
     document.getElementById("backToList").onclick = () => {
       conversationBox.classList.add("hidden");
       listBox.classList.remove("hidden");
     };
 
-    // fechar
+    // fechar modal
     document.getElementById("chatClose").onclick = () => {
-      document.getElementById("chatModal").classList.remove("open");
-      setTimeout(
-        () => document.getElementById("chatModal").classList.add("hidden"),
-        150
-      );
+      const modal = document.getElementById("chatModal");
+      modal.classList.remove("open");
+      setTimeout(() => modal.classList.add("hidden"), 150);
     };
 
-    // carregar mensagens
+    // carregar histórico
     messages = await service.getMessages(activeConversationId);
     renderMessages();
+
+    // -----------------------------------------------------
+    // marcar como LIDAS todas as mensagens recebidas
+    // -----------------------------------------------------
+    await supabase
+      .from("messages")
+      .update({ lida: true })
+      .eq("conversation_id", activeConversationId)
+      .neq("sender_id", activeUserId);
+
+    // se finalizada → bloqueia envio
+    if (finalizada) return;
 
     // enviar mensagem
     sendBtn.onclick = async () => {
@@ -126,12 +164,14 @@ window.initConversationView = function (service, supabase) {
         txt
       );
 
+      if (!msg) return;
+
       messages.push(msg);
       renderMessages();
       input.value = "";
     };
 
-    // enter
+    // Enter para enviar
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -139,21 +179,26 @@ window.initConversationView = function (service, supabase) {
       }
     });
 
-    // typing
+    // evento de digitação
     input.addEventListener("input", () => {
       sendTyping();
     });
   }
 
+  // ---------------------------------------------------------
+  // nova mensagem ao vivo
+  // ---------------------------------------------------------
+  function handleIncomingMessage(msg) {
+    messages.push(msg);
+    renderMessages();
+  }
+
   return {
     open,
-    handleIncomingMessage(msg) {
-      messages.push(msg);
-      renderMessages();
-    },
+    handleIncomingMessage,
+    showTypingIndicator,
     getActiveConversationId() {
       return activeConversationId;
     },
-    showTypingIndicator,
   };
 };
