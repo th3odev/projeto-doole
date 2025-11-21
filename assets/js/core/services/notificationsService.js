@@ -57,8 +57,8 @@
           user_id: userId,
           sender_id: senderId,
           type,
-          title: finalTitle,
-          message: finalMessage,
+          title: finalTitle, // <-- Agora salva o título real!
+          message: finalMessage, // <-- Agora salva a mensagem real!
           item_id: itemId || null,
           offer_id: offerId || null,
           lida: false,

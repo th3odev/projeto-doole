@@ -1,5 +1,5 @@
 // ===============================================
-// SERVICE DE LANCES — FINAL COM {item_title}
+// SERVICE DE LANCES — FINAL COM {item_title} (CORRIGIDO)
 // ===============================================
 (function () {
   const supabase = window.supabase;
@@ -10,7 +10,7 @@
   }
 
   // ============================================
-  // ACEITAR LANCE + CRIAR CONVERSA
+  // ACEITAR LANCE + CRIAR CONVERSA (CORRIGIDO)
   // ============================================
   async function acceptOffer({ offerId, itemId, compradorId, vendedorId }) {
     try {
@@ -50,19 +50,23 @@
         conversationId = newConv.id;
       }
 
-      // Notificação → comprador
-      await supabase.from("notifications").insert([
-        {
-          user_id: compradorId,
-          sender_id: vendedorId,
+      // Notificação → comprador (USANDO notificationsService para substituir {item_title})
+      if (window.notificationsService) {
+        await window.notificationsService.createNotification({
+          userId: compradorId,
+          senderId: vendedorId,
           type: "offer_accepted",
           title: "Seu lance no item {item_title} foi aceito!",
           message:
             "Parabéns! Seu lance no item {item_title} foi aceito. Agora você pode conversar com o vendedor.",
-          item_id: itemId,
-          offer_id: offerId,
-        },
-      ]);
+          itemId: itemId,
+          offerId: offerId,
+        });
+      } else {
+        console.error(
+          "❌ notificationsService não encontrado para criar notificação de lance aceito."
+        );
+      }
 
       return { success: true, conversationId };
     } catch (err) {
@@ -91,7 +95,7 @@
   }
 
   // ============================================
-  // CRIAR OFERTA
+  // CRIAR OFERTA (CORRIGIDO)
   // ============================================
   async function createOffer({
     itemId,
@@ -121,19 +125,23 @@
 
       if (error) throw error;
 
-      // Notificação → vendedor
-      await supabase.from("notifications").insert([
-        {
-          user_id: vendedorId,
-          sender_id: compradorId,
+      // Notificação → vendedor (USANDO notificationsService para substituir {item_title})
+      if (window.notificationsService) {
+        await window.notificationsService.createNotification({
+          userId: vendedorId,
+          senderId: compradorId,
           type: "offer_received",
           title: "Novo lance no item {item_title}",
           message:
             "Você recebeu uma nova oferta no item {item_title}. Clique para ver detalhes.",
-          item_id: itemId,
-          offer_id: offer.id,
-        },
-      ]);
+          itemId: itemId,
+          offerId: offer.id,
+        });
+      } else {
+        console.error(
+          "❌ notificationsService não encontrado para criar notificação de lance recebido."
+        );
+      }
 
       return { success: true, offer };
     } catch (error) {
