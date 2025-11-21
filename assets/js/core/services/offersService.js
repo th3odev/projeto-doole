@@ -1,5 +1,5 @@
 // ===============================================
-// SERVICE DE LANCES — 100% REPARADO
+// SERVICE DE LANCES — ATUALIZADO COM {item_title}
 // ===============================================
 (function () {
   const supabase = window.supabase;
@@ -50,14 +50,15 @@
         conversationId = newConv.id;
       }
 
-      // 4) Notificação ao comprador
+      // 4) Notificação ao comprador (agora com nome do item)
       await supabase.from("notifications").insert([
         {
           user_id: compradorId,
           sender_id: vendedorId,
           type: "offer_accepted",
-          title: "Seu lance foi aceito!",
-          message: "Agora você pode conversar com o vendedor.",
+          title: "Seu lance no item {item_title} foi aceito!",
+          message:
+            "Parabéns! Seu lance no item {item_title} foi aceito. Agora você pode conversar com o vendedor.",
           item_id: itemId,
           offer_id: offerId,
         },
@@ -120,14 +121,15 @@
 
       if (error) throw error;
 
-      // Notificar vendedor
+      // Notificação ao vendedor (agora com nome do item)
       await supabase.from("notifications").insert([
         {
           user_id: vendedorId,
           sender_id: compradorId,
           type: "offer_received",
-          title: "Você recebeu um novo lance",
-          message: "Um comprador enviou um lance para seu item.",
+          title: "Novo lance no item {item_title}",
+          message:
+            "Você recebeu uma nova oferta no item {item_title}. Clique para ver detalhes.",
           item_id: itemId,
           offer_id: offer.id,
         },

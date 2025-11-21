@@ -44,10 +44,13 @@
       }
 
       // preencher placeholders
-      const finalTitle = title?.replace("{item_title}", itemTitle || "Item");
+      const finalTitle = title?.replace(
+        "{item_title}",
+        itemTitle || "seu item"
+      );
       const finalMessage = message
         ?.replace(/\(id:[^)]+\)/g, "")
-        ?.replace("{item_title}", itemTitle || "item");
+        ?.replace("{item_title}", itemTitle || "seu item");
 
       // salvar notificação (exceto chat)
       const { error } = await supabase.from("notifications").insert([
