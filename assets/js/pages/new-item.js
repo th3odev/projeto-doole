@@ -3,7 +3,7 @@
 // ======================================================
 
 import { setLoading, escapeHtml, wait, isEmpty } from "../core/utils.js";
-import { requireAuth } from "../core/authguard.js";
+import { requireAuth } from "../core/authGuard.js";
 import { getCurrentUser } from "../core/auth.js";
 
 // ------------------------------------------------------
