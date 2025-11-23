@@ -89,7 +89,7 @@ O desenvolvimento do Doole seguiu um fluxo de trabalho que priorizou o design e 
 > *É difícil prototipar sem uma identidade, e difícil criar uma identidade sem um branding; por isso, fiz o branding, a identidade e, só então, o protótipo, garantindo que o código tivesse uma base sólida para seguir.*
 
 **Acesse o Protótipo no Figma:**
-👉 [**[Wireframe e Protótipo no Figma]**]([https://www.figma.com/design/4LNw9BCEgi7Ow09LlBesEO/doole---movitalent?node-id=22-1470&t=B2zeF4cSVBec2fyl-1])
+👉 [[Wireframe e Protótipo no Figma]](https://www.figma.com/design/4LNw9BCEgi7Ow09LlBesEO/doole---movitalent?node-id=0-1&t=Kr5wGepaA11q5NYH-1)
 
 ---
 ## 🐱‍👤 Nota Pessoal e Aprendizados
