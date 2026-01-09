@@ -2,32 +2,36 @@
 import { debounce } from "../core/utils.js";
 
 const itemsContainer = document.getElementById("itemsContainer");
+const paginationContainer = document.getElementById("pagination");
+
 const searchInput = document.getElementById("searchInput");
 const filterTipo = document.getElementById("filterTipo");
 const filterCidade = document.getElementById("filterCidade");
 const filterCategoria = document.getElementById("filterCategoria");
 const sortSelect = document.getElementById("sortSelect");
 
-let allItems = [];
+const ITEMS_PER_PAGE = 8;
 
-// carregar categorias e itens
+let allItems = [];
+let filteredItems = [];
+let currentPage = 1;
+
+/* =========================
+   CARREGAR DADOS
+========================= */
 async function carregarDados() {
   showSkeleton(6);
 
   try {
-    // busca categorias (para popular select)
-    const { data: cats, error: catErr } = await supabase
+    // categorias
+    const { data: cats } = await supabase
       .from("categories")
       .select("id, nome")
       .order("nome", { ascending: true });
 
-    if (!catErr && Array.isArray(cats)) {
-      populateCategorias(cats);
-    } else {
-      console.warn("Não foi possível carregar categories:", catErr);
-    }
+    if (Array.isArray(cats)) populateCategorias(cats);
 
-    // busca items
+    // itens
     const { data: items, error } = await supabase
       .from("items")
       .select(
@@ -36,66 +40,133 @@ async function carregarDados() {
       .eq("status", "ativo")
       .order("criado_em", { ascending: false });
 
-    if (error) {
-      console.error("erro ao carregar itens:", error);
-      itemsContainer.innerHTML = `<p class="text-center text-muted">Erro ao carregar itens.</p>`;
-      return;
-    }
+    if (error) throw error;
 
-    // -----------------------------
-    // 🔥 FILTRAR ITENS COM OFERTA ACEITA
-    // -----------------------------
-    const { data: ofertasAceitas, error: ofertasErr } = await supabase
+    // ofertas aceitas
+    const { data: ofertasAceitas } = await supabase
       .from("offers")
       .select("item_id")
       .eq("status", "aceita");
 
-    if (ofertasErr) {
-      console.warn("Erro ao buscar ofertas aceitas:", ofertasErr);
-    }
-
-    // lista dos IDs de itens já negociados
     const itensComOfertaAceita = new Set(
       (ofertasAceitas || []).map((o) => o.item_id)
     );
 
-    // remove itens já aceitos
     allItems = (items || []).filter((i) => !itensComOfertaAceita.has(i.id));
 
-    // popula cidades únicas
     populateCidades(allItems);
-
     aplicarFiltros();
   } catch (err) {
-    console.error("Erro geral ao carregar dados:", err);
+    console.error("Erro ao carregar itens:", err);
     itemsContainer.innerHTML = `<p class="text-center text-muted">Erro ao carregar itens.</p>`;
   }
 }
 
-function populateCategorias(categories = []) {
-  if (!filterCategoria) return;
-  filterCategoria.innerHTML = `<option value="">Todas as categorias</option>`;
-  categories.forEach((c) => {
-    const opt = document.createElement("option");
-    opt.value = String(c.id);
-    opt.textContent = c.nome || "Categoria";
-    filterCategoria.appendChild(opt);
+/* =========================
+   FILTROS + ORDENAÇÃO
+========================= */
+function aplicarFiltros() {
+  let items = [...allItems];
+
+  const tipo = filterTipo?.value || "";
+  const cidade = filterCidade?.value || "";
+  const categoria = filterCategoria?.value || "";
+  const busca = (searchInput?.value || "").toLowerCase().trim();
+
+  if (tipo) items = items.filter((i) => i.tipo === tipo);
+  if (cidade) items = items.filter((i) => i.localizacao === cidade);
+  if (categoria)
+    items = items.filter(
+      (i) => String(i.categoria_id || "") === String(categoria)
+    );
+
+  if (busca) {
+    items = items.filter((i) => {
+      const t = (i.titulo || "").toLowerCase();
+      const d = (i.descricao || "").toLowerCase();
+      return t.includes(busca) || d.includes(busca);
+    });
+  }
+
+  const sortVal = sortSelect?.value || "recentes";
+  items.sort((a, b) => {
+    if (sortVal === "recentes") {
+      return new Date(b.criado_em) - new Date(a.criado_em);
+    }
+    if (sortVal === "preco-asc") {
+      return Number(a.preco || 0) - Number(b.preco || 0);
+    }
+    if (sortVal === "preco-desc") {
+      return Number(b.preco || 0) - Number(a.preco || 0);
+    }
+    if (sortVal === "alpha") {
+      return (a.titulo || "")
+        .toLowerCase()
+        .localeCompare((b.titulo || "").toLowerCase());
+    }
+    return 0;
   });
+
+  filteredItems = items;
+  currentPage = 1;
+  renderPage();
 }
 
-function populateCidades(items = []) {
-  if (!filterCidade) return;
-  const cidades = [...new Set(items.map((i) => i.localizacao).filter(Boolean))];
-  filterCidade.innerHTML = `<option value="">Todas as cidades</option>`;
-  cidades.forEach((c) => {
-    const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = c;
-    filterCidade.appendChild(opt);
-  });
+/* =========================
+   PAGINAÇÃO
+========================= */
+function renderPage() {
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const end = start + ITEMS_PER_PAGE;
+  const pageItems = filteredItems.slice(start, end);
+
+  renderizarItens(pageItems);
+  renderPagination();
 }
 
-/* ---------- Renderização ---------- */
+function renderPagination() {
+  if (!paginationContainer) return;
+  paginationContainer.innerHTML = "";
+
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+  if (totalPages <= 1) return;
+
+  paginationContainer.appendChild(
+    createPageButton("«", currentPage - 1, currentPage === 1)
+  );
+
+  for (let i = 1; i <= totalPages; i++) {
+    paginationContainer.appendChild(createPageButton(i, i, i === currentPage));
+  }
+
+  paginationContainer.appendChild(
+    createPageButton("»", currentPage + 1, currentPage === totalPages)
+  );
+}
+
+function createPageButton(text, page, disabled) {
+  const li = document.createElement("li");
+  li.className = `page-item ${disabled ? "disabled" : ""}`;
+
+  const btn = document.createElement("button");
+  btn.className = "page-link";
+  btn.textContent = text;
+
+  btn.onclick = () => {
+    if (!disabled) {
+      currentPage = page;
+      renderPage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  li.appendChild(btn);
+  return li;
+}
+
+/* =========================
+   RENDERIZAÇÃO (ORIGINAL)
+========================= */
 function renderizarItens(items) {
   itemsContainer.innerHTML = "";
 
@@ -110,10 +181,6 @@ function renderizarItens(items) {
   items.forEach((item) => {
     const card = document.createElement("article");
     card.className = "card card--item";
-    card.dataset.itemId = item.id;
-    card.dataset.categoryId = item.categoria_id || "";
-    card.dataset.category = item.categoria_id ? String(item.categoria_id) : "";
-    card.dataset.type = item.tipo || "";
 
     const imagem =
       (item.imagens && item.imagens[0]) || "../assets/img/placeholder.png";
@@ -141,7 +208,7 @@ function renderizarItens(items) {
 
         <div class="card--item__footer">
           <div class="card--item__location">
-            <img src="../assets/img/icons/localizacao.svg" alt="" aria-hidden="true" class="card--item__location-icon" />
+            <img src="../assets/img/icons/localizacao.svg" alt="" aria-hidden="true" />
             <span>${escapeHtml(item.localizacao || "")}</span>
           </div>
           <span class="card--item__price">${preco}</span>
@@ -160,119 +227,75 @@ function renderizarItens(items) {
 
   itemsContainer.appendChild(fragment);
 
-  const visibleCount =
-    itemsContainer.querySelectorAll(".card:not(.d-none)").length;
-  itemsContainer.classList.toggle("center-mobile", visibleCount === 1);
+  itemsContainer.classList.toggle("center-mobile", items.length === 1);
 }
 
-/* ---------- Filtros e ordenação ---------- */
-function aplicarFiltros() {
-  let items = Array.isArray(allItems) ? [...allItems] : [];
-
-  const tipo = filterTipo?.value || "";
-  const cidade = filterCidade?.value || "";
-  const categoria = filterCategoria?.value || "";
-  const busca = (searchInput?.value || "").toLowerCase().trim();
-
-  if (tipo) items = items.filter((i) => i.tipo === tipo);
-  if (cidade) items = items.filter((i) => i.localizacao === cidade);
-  if (categoria)
-    items = items.filter(
-      (i) => String(i.categoria_id || "") === String(categoria)
-    );
-  if (busca) {
-    items = items.filter((i) => {
-      const t = (i.titulo || "").toLowerCase();
-      const d = (i.descricao || "").toLowerCase();
-      return t.includes(busca) || d.includes(busca);
-    });
-  }
-
-  const sortVal = sortSelect?.value || "recentes";
-  items.sort((a, b) => {
-    if (sortVal === "recentes") {
-      return (
-        new Date(b.criado_em || 0).getTime() -
-        new Date(a.criado_em || 0).getTime()
-      );
-    }
-    if (sortVal === "preco-asc") {
-      return Number(a.preco || 0) - Number(b.preco || 0);
-    }
-    if (sortVal === "preco-desc") {
-      return Number(b.preco || 0) - Number(a.preco || 0);
-    }
-    if (sortVal === "alpha") {
-      return (a.titulo || "")
-        .toLowerCase()
-        .localeCompare((b.titulo || "").toLowerCase());
-    }
-    return 0;
+/* =========================
+   SELECTS
+========================= */
+function populateCategorias(categories = []) {
+  filterCategoria.innerHTML = `<option value="">Todas as categorias</option>`;
+  categories.forEach((c) => {
+    const opt = document.createElement("option");
+    opt.value = String(c.id);
+    opt.textContent = c.nome || "Categoria";
+    filterCategoria.appendChild(opt);
   });
-
-  renderizarItens(items);
 }
 
-/* ---------- Skeletons ---------- */
+function populateCidades(items = []) {
+  const cidades = [...new Set(items.map((i) => i.localizacao).filter(Boolean))];
+  filterCidade.innerHTML = `<option value="">Todas as cidades</option>`;
+  cidades.forEach((c) => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    filterCidade.appendChild(opt);
+  });
+}
+
+/* =========================
+   HELPERS
+========================= */
 function showSkeleton(count = 6) {
   itemsContainer.innerHTML = "";
   for (let i = 0; i < count; i++) {
     const sk = document.createElement("div");
     sk.className = "card card--item";
-    sk.setAttribute("aria-hidden", "true");
-    sk.innerHTML = `
-      <div class="skeleton" style="height:200px; width:100%;"></div>
-      <div class="card--item__content">
-        <div class="skeleton mb-2" style="width:60%; height:16px;"></div>
-        <div class="skeleton mb-2" style="width:90%; height:12px;"></div>
-        <div class="skeleton" style="width:40%; height:14px;"></div>
-      </div>
-    `;
+    sk.innerHTML = `<div class="skeleton" style="height:200px"></div>`;
     itemsContainer.appendChild(sk);
   }
 }
 
-/* ---------- Helpers ---------- */
-function escapeHtml(str) {
-  if (str === null || str === undefined) return "";
+function escapeHtml(str = "") {
   return String(str)
     .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
-function escapeHtmlAttr(str) {
-  if (str === null || str === undefined) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+
+function escapeHtmlAttr(str = "") {
+  return escapeHtml(str).replace(/'/g, "&#39;");
 }
+
 function formatCurrency(v) {
-  try {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(Number(v || 0));
-  } catch (e) {
-    return `R$ ${v || "0,00"}`;
-  }
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(Number(v || 0));
 }
 
-/* ---------- Event listeners ---------- */
-if (searchInput)
-  searchInput.addEventListener(
-    "input",
-    debounce(() => aplicarFiltros(), 220)
-  );
-if (filterTipo) filterTipo.addEventListener("change", aplicarFiltros);
-if (filterCidade) filterCidade.addEventListener("change", aplicarFiltros);
-if (filterCategoria) filterCategoria.addEventListener("change", aplicarFiltros);
-if (sortSelect) sortSelect.addEventListener("change", aplicarFiltros);
+/* =========================
+   EVENTS
+========================= */
+searchInput?.addEventListener("input", debounce(aplicarFiltros, 220));
+filterTipo?.addEventListener("change", aplicarFiltros);
+filterCidade?.addEventListener("change", aplicarFiltros);
+filterCategoria?.addEventListener("change", aplicarFiltros);
+sortSelect?.addEventListener("change", aplicarFiltros);
 
-/* ---------- Init ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  carregarDados();
-});
+/* =========================
+   INIT
+========================= */
+document.addEventListener("DOMContentLoaded", carregarDados);
